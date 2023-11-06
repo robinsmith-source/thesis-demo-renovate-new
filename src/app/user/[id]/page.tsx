@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             key={recipe.id}
             className="flex flex-col gap-2 rounded-xl bg-blue-400 p-4 hover:bg-blue-300"
           >
-            <Link href={`../../recipe/${recipe.id}`}>
+            <Link href={`/recipe/${recipe.id}`}>
               <h2 className="text-2xl font-bold">{recipe.name}</h2>
               <p className="text-lg">{recipe.description}</p>
             </Link>
