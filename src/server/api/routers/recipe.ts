@@ -60,38 +60,33 @@ export const recipeRouter = createTRPCRouter({
       });
     }),
 
-  getLatest: protectedProcedure.query(({ ctx }) => {
-    return ctx.db.recipe.findFirst({
-      orderBy: { createdAt: "desc" },
-      where: {
-        author: {
-          id: ctx.session.user.id,
-        },
-      },
-      include: {
-        steps: {
-          include: {
-            ingredients: true,
+  getLatest: protectedProcedure
+    .input(z.object({ take: z.number().min(1) }))
+    .query(({ ctx, input }) => {
+      return ctx.db.recipe.findMany({
+        orderBy: { createdAt: "desc" },
+        where: {},
+        take: input.take,
+        include: {
+          steps: {
+            include: {
+              ingredients: true,
+            },
           },
-        },
-        reviews: {
-          include: {
-            author: true,
+          reviews: {
+            include: {
+              author: true,
+            },
           },
+          labels: true,
         },
-        labels: true,
-      },
-    });
-  }),
+      });
+    }),
 
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.db.recipe.findMany({
       orderBy: { createdAt: "desc" },
-      where: {
-        author: {
-          id: ctx.session.user.id,
-        },
-      },
+      where: {},
       include: {
         steps: {
           include: {
