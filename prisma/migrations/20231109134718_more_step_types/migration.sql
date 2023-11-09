@@ -8,3 +8,4 @@
 
 ALTER TYPE "RecipeStepType" ADD VALUE 'SEASON';
 ALTER TYPE "RecipeStepType" ADD VALUE 'SERVE';
+ALTER TYPE "RecipeStepType" ADD VALUE 'MIX';

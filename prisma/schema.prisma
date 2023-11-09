@@ -112,6 +112,7 @@ enum RecipeStepType {
     REST
     SEASON
     SERVE
+    MIX
 }
 
 model RecipeStep {

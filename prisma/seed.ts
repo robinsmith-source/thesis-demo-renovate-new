@@ -63,7 +63,7 @@ async function main() {
                 {
                   description:
                     "In a bowl, whisk the eggs, add the grated Parmesan, and mix well. Season with salt and pepper.",
-                  stepType: "PREP",
+                  stepType: "MIX",
                   duration: 3,
                   ingredients: {
                     create: [
@@ -92,7 +92,7 @@ async function main() {
                 {
                   description:
                     "Add the hot, drained spaghetti to the skillet with the bacon and mix.",
-                  stepType: "PREP",
+                  stepType: "MIX",
                   duration: 2,
                 },
                 {
