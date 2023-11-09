@@ -8,7 +8,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main className="container mx-auto">
+    <main>
       <div className="flex items-center gap-4 py-4">
         {user.image ? (
           <img

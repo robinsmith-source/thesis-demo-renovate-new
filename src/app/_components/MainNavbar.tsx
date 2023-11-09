@@ -15,7 +15,6 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
 import { usePathname } from "next/navigation";
 import type { Session } from "next-auth";
 
@@ -29,14 +28,16 @@ function LoginBar({ session }: { session: Session }) {
           className="transition-transform"
           color="secondary"
           name={session.user.name ?? undefined}
-          size="sm"
+          size="md"
           src={session.user.image ?? "https://placekitten.com/200/200"}
         />
       </DropdownTrigger>
       <DropdownMenu aria-label="Profile Actions" variant="flat">
         <DropdownItem key="profile" className="h-14 gap-2">
-          <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">{session.user.name}</p>
+          <p className="font-semibold">
+            Signed in as <br />
+            {session.user.name}
+          </p>
         </DropdownItem>
         <DropdownItem key="settings" href={`/user/${session.user.id}`}>
           My Profile
@@ -53,7 +54,7 @@ export default function MainNavbar({ session }: { session: Session | null }) {
   const pathname = usePathname();
 
   return (
-    <Navbar>
+    <Navbar maxWidth="xl">
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle />
       </NavbarContent>

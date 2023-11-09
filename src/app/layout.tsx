@@ -32,7 +32,9 @@ export default async function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <Providers>
           <MainNavbar session={session} />
-          <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
+          <TRPCReactProvider headers={headers()}>
+            <div className="mx-auto max-w-screen-xl p-8">{children}</div>
+          </TRPCReactProvider>
         </Providers>
       </body>
     </html>

@@ -2,7 +2,8 @@ import { api } from "~/trpc/server";
 import RecipeStep from "~/app/_components/RecipeStep";
 import { Card, CardHeader } from "@nextui-org/card";
 import React from "react";
-import { Link } from "@nextui-org/react";
+import { Image, Link } from "@nextui-org/react";
+import NextImage from "next/image";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const recipe = await api.recipe.get.query({ id: params.id });
@@ -11,8 +12,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main className="mx-auto max-w-5xl p-4">
-      <Card className="h-96 w-full">
+    <main>
+      <Card className="h-96">
         <CardHeader className="absolute bottom-1 z-10 flex-col !items-start">
           <h1 className="text-2xl font-medium text-white">{recipe.name}</h1>
           <p className="text-white">
@@ -20,8 +21,15 @@ export default async function Page({ params }: { params: { id: string } }) {
             <Link href={`/user/${recipe.author.id}`}>{recipe.author.name}</Link>
           </p>
         </CardHeader>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-50% to-gray-700/70"></div>
-        <img src="https://placekitten.com/500/300" alt="Recipe header" />
+        <Image
+          as={NextImage}
+          width={500}
+          height={300}
+          removeWrapper
+          alt="recipe header"
+          className="z-0 h-full w-full object-cover"
+          src="https://placekitten.com/500/300"
+        />
       </Card>
 
       <div className="p-4">

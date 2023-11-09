@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { api } from "~/trpc/server";
 import { Card, CardHeader } from "@nextui-org/card";
+import { Image } from "@nextui-org/react";
+import NextImage from "next/image";
 
 export default async function RecipeCard({ recipeId }: { recipeId: string }) {
   const recipe = await api.recipe.getRecipePreview.query({ id: recipeId });
@@ -16,7 +18,10 @@ export default async function RecipeCard({ recipeId }: { recipeId: string }) {
           <h2 className="text-lg font-medium text-white">{recipe.name}</h2>
           <p className="text-left text-white/80">{recipe.description}</p>
         </CardHeader>
-        <img
+        <Image
+          as={NextImage}
+          width={500}
+          height={200}
           src="https://placekitten.com/500/200"
           alt="Card background"
           className="z-0 h-full w-full object-cover brightness-75"
