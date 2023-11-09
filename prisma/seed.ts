@@ -42,12 +42,12 @@ async function main() {
                       {
                         name: "Salt",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TABLESPOON",
                       },
                       {
                         name: "Spaghetti",
                         quantity: 300,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                     ],
                   },
@@ -61,7 +61,7 @@ async function main() {
                     create: {
                       name: "Bacon",
                       quantity: 150,
-                      unit: "g",
+                      unit: "GRAM",
                     },
                   },
                 },
@@ -79,17 +79,17 @@ async function main() {
                       {
                         name: "Parmesan",
                         quantity: 100,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                       {
                         name: "Salt",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Pepper",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                     ],
                   },
@@ -121,7 +121,7 @@ async function main() {
                     create: {
                       name: "Olive Oil",
                       quantity: 1,
-                      unit: "tbsp",
+                      unit: "TABLESPOON",
                     },
                   },
                 },
@@ -134,7 +134,7 @@ async function main() {
                     create: {
                       name: "Parmesan",
                       quantity: 50,
-                      unit: "g",
+                      unit: "GRAM",
                     },
                   },
                 },
@@ -174,17 +174,17 @@ async function main() {
                       {
                         name: "Salt",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Pepper",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Olive Oil",
                         quantity: 2,
-                        unit: "tbsp",
+                        unit: "TABLESPOON",
                       },
                     ],
                   },
@@ -199,12 +199,12 @@ async function main() {
                       {
                         name: "Mixed Greens",
                         quantity: 150,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                       {
                         name: "Cherry Tomatoes",
                         quantity: 200,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                       {
                         name: "Cucumber",
@@ -226,7 +226,7 @@ async function main() {
                     create: {
                       name: "Balsamic Vinaigrette",
                       quantity: 3,
-                      unit: "tbsp",
+                      unit: "TABLESPOON",
                     },
                   },
                 },
@@ -262,12 +262,12 @@ async function main() {
                       {
                         name: "Salt",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Pasta",
                         quantity: 300,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                     ],
                   },
@@ -280,9 +280,8 @@ async function main() {
                   ingredients: {
                     create: [
                       {
-                        name: "Garlic",
+                        name: "Garlic cloves",
                         quantity: 2,
-                        unit: "cloves",
                       },
                       {
                         name: "Onion",
@@ -291,7 +290,7 @@ async function main() {
                       {
                         name: "Asparagus",
                         quantity: 200,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                       {
                         name: "Bell Peppers",
@@ -300,7 +299,7 @@ async function main() {
                       {
                         name: "Cherry Tomatoes",
                         quantity: 250,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                     ],
                   },
@@ -315,27 +314,27 @@ async function main() {
                       {
                         name: "Heavy Cream",
                         quantity: 150,
-                        unit: "ml",
+                        unit: "MILLILITER",
                       },
                       {
                         name: "Parmesan",
                         quantity: 100,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                       {
                         name: "Basil",
                         quantity: 2,
-                        unit: "tbsp",
+                        unit: "TABLESPOON",
                       },
                       {
                         name: "Salt",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Pepper",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                     ],
                   },
@@ -379,27 +378,27 @@ async function main() {
                       {
                         name: "Beef Stew Meat",
                         quantity: 1,
-                        unit: "kg",
+                        unit: "KILOGRAM",
                       },
                       {
                         name: "Flour",
                         quantity: 2,
-                        unit: "tbsp",
+                        unit: "TABLESPOON",
                       },
                       {
                         name: "Salt",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Pepper",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Vegetable Oil",
                         quantity: 2,
-                        unit: "tbsp",
+                        unit: "TABLESPOON",
                       },
                     ],
                   },
@@ -436,22 +435,22 @@ async function main() {
                       {
                         name: "Beef Broth",
                         quantity: 1,
-                        unit: "L",
+                        unit: "LITER",
                       },
                       {
                         name: "Tomato Paste",
                         quantity: 2,
-                        unit: "tbsp",
+                        unit: "TABLESPOON",
                       },
                       {
                         name: "Red Wine",
                         quantity: 250,
-                        unit: "ml",
+                        unit: "MILLILITER",
                       },
                       {
                         name: "Thyme",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Bay Leaves",
@@ -460,7 +459,7 @@ async function main() {
                       {
                         name: "Worcestershire Sauce",
                         quantity: 2,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                     ],
                   },
@@ -474,7 +473,7 @@ async function main() {
                     create: {
                       name: "Potatoes",
                       quantity: 500,
-                      unit: "g",
+                      unit: "GRAM",
                     },
                   },
                 },
@@ -510,12 +509,12 @@ async function main() {
                       {
                         name: "Salt",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Spaghetti",
                         quantity: 300,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                     ],
                   },
@@ -530,17 +529,16 @@ async function main() {
                       {
                         name: "Olive Oil",
                         quantity: 4,
-                        unit: "tbsp",
+                        unit: "TABLESPOON",
                       },
                       {
-                        name: "Garlic",
+                        name: "Garlic cloves",
                         quantity: 4,
-                        unit: "cloves",
                       },
                       {
                         name: "Red Pepper Flakes",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                     ],
                   },
@@ -555,17 +553,17 @@ async function main() {
                       {
                         name: "Parsley",
                         quantity: 1,
-                        unit: "tbsp",
+                        unit: "TABLESPOON",
                       },
                       {
                         name: "Salt",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                       {
                         name: "Pepper",
                         quantity: 1,
-                        unit: "tsp",
+                        unit: "TEASPOON",
                       },
                     ],
                   },
@@ -612,12 +610,12 @@ async function main() {
                       {
                         name: "Tomato Sauce",
                         quantity: 1,
-                        unit: "cup",
+                        unit: "CUP",
                       },
                       {
                         name: "Fresh Mozzarella",
                         quantity: 200,
-                        unit: "g",
+                        unit: "GRAM",
                       },
                       {
                         name: "Tomato",
@@ -626,7 +624,7 @@ async function main() {
                       {
                         name: "Fresh Basil Leaves",
                         quantity: 1,
-                        unit: "cup",
+                        unit: "CUP",
                       },
                     ],
                   },
@@ -640,7 +638,7 @@ async function main() {
                     create: {
                       name: "Olive Oil",
                       quantity: 2,
-                      unit: "tbsp",
+                      unit: "TABLESPOON",
                     },
                   },
                 },
