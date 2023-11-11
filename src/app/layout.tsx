@@ -29,7 +29,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body className={`font-sans ${inter.variable} bg-primary h-screen`}>
         <Providers>
           <MainNavbar session={session} />
           <TRPCReactProvider headers={headers()}>
