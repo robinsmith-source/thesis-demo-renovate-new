@@ -44,6 +44,9 @@ function LoginBar({ session }: { session: Session }) {
         <DropdownItem key="settings" href={`/user/${session.user.id}`}>
           My Profile
         </DropdownItem>
+        <DropdownItem key="create-recipe" href={`/recipe/create`}>
+          Create Recipe
+        </DropdownItem>
         <DropdownItem key="logout" color="danger" href={"/api/auth/signout"}>
           Log Out
         </DropdownItem>

@@ -78,9 +78,19 @@ export const recipeRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string().min(1),
-        description: z.string().optional(),
-        requiredUtensils: z.array(z.string()),
+        description: z.string().nullable(),
         difficulty: z.enum(["EASY", "MEDIUM", "HARD", "EXPERT"]),
+        tags: z
+          .array(
+            z
+              .string({invalid_type_error: "Tags must be strings"})
+              .min(1)
+              .regex(/^[a-z]+$/, "Tags can only contain lowercase characters"),
+          )
+          .max(10, "A recipe can only have 10 tags")
+          .refine((items) => new Set(items).size === items.length, {
+            message: "Must be an array of unique strings",
+          }),
         steps: z.array(
           z.object({
             description: z.string(),
@@ -102,8 +112,8 @@ export const recipeRouter = createTRPCRouter({
         data: {
           name: input.name,
           description: input.name,
-          requiredUtensils: { set: input.requiredUtensils },
           difficulty: input.difficulty,
+          tags: input.tags,
           steps: {
             createMany: {
               data: input.steps.map((step) => ({
@@ -133,7 +143,6 @@ export const recipeRouter = createTRPCRouter({
         id: z.string().cuid(),
         name: z.string().min(1),
         description: z.string().optional(),
-        requiredUtensils: z.array(z.string()),
         difficulty: z.enum(["EASY", "MEDIUM", "HARD", "EXPERT"]),
         steps: z.array(
           z.object({
@@ -159,7 +168,6 @@ export const recipeRouter = createTRPCRouter({
         data: {
           name: input.name,
           description: input.description,
-          requiredUtensils: { set: input.requiredUtensils },
           difficulty: input.difficulty,
           steps: {
             updateMany: {

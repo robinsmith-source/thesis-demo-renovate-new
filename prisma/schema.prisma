@@ -89,14 +89,13 @@ model Recipe {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    name             String
-    description      String?
-    requiredUtensils String[]
-    difficulty       RecipeDifficulty
-    steps            RecipeStep[]
-    labels           RecipeLabel[]
-    reviews          RecipeReview[]
-    tags             String[]
+    name        String
+    description String?
+    difficulty  RecipeDifficulty
+    steps       RecipeStep[]
+    labels      RecipeLabel[]
+    reviews     RecipeReview[]
+    tags        String[]
 
     author     User   @relation("RecipeAuthor", fields: [authorId], references: [id])
     authorId   String

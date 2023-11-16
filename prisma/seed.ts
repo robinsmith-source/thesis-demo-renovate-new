@@ -22,13 +22,6 @@ async function main() {
             name: "Spaghetti Carbonara",
             description:
               "A classic Italian pasta dish with creamy egg sauce and crispy bacon.",
-            requiredUtensils: [
-              "Large pot",
-              "Skillet",
-              "Bowl",
-              "Wooden Spoon",
-              "Colander",
-            ],
             difficulty: "MEDIUM",
             steps: {
               create: [
@@ -145,13 +138,6 @@ async function main() {
             name: "Grilled Chicken Salad",
             description:
               "A healthy and delicious salad with grilled chicken and fresh veggies.",
-            requiredUtensils: [
-              "Grill",
-              "Salad Bowl",
-              "Tongs",
-              "Knife",
-              "Cutting Board",
-            ],
             difficulty: "EASY",
             steps: {
               create: [
@@ -242,13 +228,6 @@ async function main() {
             name: "Pasta Primavera",
             description:
               "A colorful pasta dish with fresh spring vegetables and a creamy sauce.",
-            requiredUtensils: [
-              "Large Pot",
-              "Skillet",
-              "Bowl",
-              "Wooden Spoon",
-              "Colander",
-            ],
             difficulty: "MEDIUM",
             steps: {
               create: [
@@ -358,13 +337,6 @@ async function main() {
             name: "Classic Beef Stew",
             description:
               "A hearty and comforting beef stew with tender meat and a rich, flavorful broth.",
-            requiredUtensils: [
-              "Dutch Oven",
-              "Knife",
-              "Cutting Board",
-              "Large Bowl",
-              "Wooden Spoon",
-            ],
             difficulty: "EXPERT",
             steps: {
               create: [
@@ -490,12 +462,6 @@ async function main() {
             name: "Spaghetti Aglio e Olio",
             description:
               "A simple yet flavorful Italian pasta dish with garlic, olive oil, and red pepper flakes.",
-            requiredUtensils: [
-              "Large Pot",
-              "Skillet",
-              "Wooden Spoon",
-              "Colander",
-            ],
             difficulty: "EASY",
             steps: {
               create: [
@@ -575,12 +541,6 @@ async function main() {
             name: "Homemade Margherita Pizza",
             description:
               "A classic and simple Italian pizza with fresh tomatoes, mozzarella, basil, and olive oil.",
-            requiredUtensils: [
-              "Pizza Stone or Baking Sheet",
-              "Rolling Pin",
-              "Knife",
-              "Cutting Board",
-            ],
             difficulty: "EASY",
             steps: {
               create: [
