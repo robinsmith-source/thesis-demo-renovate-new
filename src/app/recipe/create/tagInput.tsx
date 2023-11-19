@@ -2,8 +2,11 @@ import { Chip, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
+import { useEffect } from "react";
+
 export default function TagInput() {
   const methods = useFormContext();
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const { fields, append, remove } = useFieldArray({
     control: methods.control,
@@ -36,15 +39,14 @@ export default function TagInput() {
   const handleClose = (tagToRemove: number) => {
     remove(tagToRemove);
   };
-
-  let errorMessage = "";
-  if (Array.isArray(fieldState.error)) {
-    errorMessage = fieldState.error?.find((e) => !!e)?.message as string;
-  } else if (fieldState.error) {
-    errorMessage = fieldState.error?.message as string;
-  } else {
-    errorMessage = "";
-  }
+  console.log(fieldState.invalid);
+  useEffect(() => {
+    if (Array.isArray(fieldState.error)) {
+      setErrorMessage(fieldState.error?.find((e) => !!e)?.message || "");
+    } else if (fieldState.error) {
+      setErrorMessage(fieldState.error?.message || "");
+    } else setErrorMessage("");
+  }, [fieldState.error]);
 
   return (
     <>
