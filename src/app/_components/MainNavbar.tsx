@@ -59,31 +59,16 @@ export default function MainNavbar({ session }: { session: Session | null }) {
   return (
     <Navbar maxWidth="xl" className="">
       <NavbarBrand>
-        <Image
-          as={NextImage}
-          width={50}
-          height={50}
-          src="/images/Logo_round_V2.png"
-          alt="Logo"
-          className="mb-2 h-24 w-24 object-contain"
-        />
+        <Link href="/">
+          <Image
+            as={NextImage}
+            width={50}
+            height={50}
+            src="/images/Logo_round_V2.png"
+            alt="Logo"
+          />
+        </Link>
       </NavbarBrand>
-      <NavbarContent className="sm:hidden" justify="start">
-        <NavbarMenuToggle />
-      </NavbarContent>
-
-      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
-        <NavbarItem isActive={pathname === "/"}>
-          <Link color="foreground" href={"/"}>
-            Home
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive={pathname === "/about"}>
-          <Link color="foreground" href={"/about"}>
-            About us
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
 
       <NavbarContent as="div" justify="end">
         {session ? (
@@ -101,19 +86,6 @@ export default function MainNavbar({ session }: { session: Session | null }) {
           </NavbarItem>
         )}
       </NavbarContent>
-
-      <NavbarMenu>
-        <NavbarMenuItem isActive={pathname === "/"}>
-          <Link color="foreground" href={"/"}>
-            Home
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem isActive={pathname === "/about"}>
-          <Link color="foreground" href={"/about"}>
-            About us
-          </Link>
-        </NavbarMenuItem>
-      </NavbarMenu>
     </Navbar>
   );
 }
