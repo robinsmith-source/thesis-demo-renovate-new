@@ -130,7 +130,7 @@ export const recipeRouter = createTRPCRouter({
       return ctx.db.recipe.create({
         data: {
           name: input.name,
-          description: input.name,
+          description: input.description,
           difficulty: input.difficulty,
           tags: input.tags,
           steps: {
