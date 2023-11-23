@@ -3,8 +3,8 @@ import RecipeCard from "~/app/_components/RecipeCard"
 import { Input } from '@nextui-org/react';
 
 export default async function Home() {
-  const featuredRecipes = await api.recipe.getFeaturedRecipes.query({
-    take: 6,
+  const featuredRecipes = await api.recipe.getLatestRecipes.query({
+    take: 6
   });
 
     return (
