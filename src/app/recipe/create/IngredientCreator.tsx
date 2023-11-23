@@ -9,7 +9,7 @@ export default function IngredientCreator({
 }: {
   stepIndex: number;
 }) {
-  const { control, register } = useFormContext();
+  const { control } = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -25,19 +25,26 @@ export default function IngredientCreator({
         </Button>
       </div>
       {fields.map((ingredient, index) => (
-        <div key={ingredient.id} className="flex items-center gap-4">
+        <div key={ingredient.id} className="flex items-center gap-2">
           <Controller
             control={control}
             name={`steps.${stepIndex}.ingredients.${index}.name`}
             render={({ field, fieldState }) => (
-              <Input {...field} label="Name" variant="bordered" isRequired />
+              <Input
+                {...field}
+                label="Name"
+                variant="bordered"
+                isRequired
+                isInvalid={!!fieldState.error}
+                errorMessage={fieldState.error?.message}
+              />
             )}
           />
 
           <Controller
             control={control}
             name={`steps.${stepIndex}.ingredients.${index}.quantity`}
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <Input
                 {...field}
                 value={field.value?.toString() || ""}
@@ -48,6 +55,8 @@ export default function IngredientCreator({
                 onChange={(event) => {
                   field.onChange(+event.target.value);
                 }}
+                isInvalid={!!fieldState.error}
+                errorMessage={fieldState.error?.message}
               />
             )}
           />
@@ -61,6 +70,8 @@ export default function IngredientCreator({
                 label="Unit"
                 variant="bordered"
                 selectedKeys={[field.value]}
+                isInvalid={!!fieldState.error}
+                errorMessage={fieldState.error?.message}
               >
                 {[
                   "GRAM",
@@ -85,10 +96,11 @@ export default function IngredientCreator({
           />
 
           <Button
-            radius="full"
+            isIconOnly
             color="danger"
             type="button"
             size="sm"
+            variant="flat"
             onClick={() => remove(index)}
           >
             <FaMinus />

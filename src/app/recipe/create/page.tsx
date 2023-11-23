@@ -1,5 +1,12 @@
 "use client";
-import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import {
+  Button,
+  Divider,
+  Input,
+  Select,
+  SelectItem,
+  Textarea,
+} from "@nextui-org/react";
 import type {
   Recipe,
   RecipeDifficulty,
@@ -13,6 +20,7 @@ import * as z from "zod";
 import TagInput from "./tagInput";
 import StepCreator from "./StepCreator";
 import { api } from "~/trpc/react";
+import React from "react";
 
 export default function Page() {
   type RecipeForm = Recipe & {
@@ -105,13 +113,11 @@ export default function Page() {
       })),
     });
   };
-  console.log(methods.watch());
-  console.log(methods.formState.errors);
   return (
     <>
       <FormProvider {...methods}>
         <form>
-          <div className="flex gap-4">
+          <div className="grid grid-cols-2 gap-2">
             <Controller
               control={methods.control}
               name="name"
@@ -152,28 +158,30 @@ export default function Page() {
                 </Select>
               )}
             />
+
+            <Controller
+              control={methods.control}
+              name="description"
+              render={({ fieldState }) => (
+                <Textarea
+                  className={"col-span-full"}
+                  minRows={2}
+                  label="Recipe Description"
+                  placeholder="My grandma used to make this pizza for me ..."
+                  variant="bordered"
+                  {...methods.register("description", { required: false })}
+                  isInvalid={!!fieldState.error}
+                  errorMessage={fieldState.error?.message}
+                />
+              )}
+            />
           </div>
 
-          <Controller
-            control={methods.control}
-            name="description"
-            render={({ fieldState }) => (
-              <Textarea
-                minRows={2}
-                label="Recipe Description"
-                placeholder="My grandma used to make this pizza for me ..."
-                variant="bordered"
-                {...methods.register("description", { required: false })}
-                isInvalid={!!fieldState.error}
-                errorMessage={fieldState.error?.message}
-              />
-            )}
-          />
-
-          <TagInput />
-
-          <StepCreator />
-
+          <div className="flex flex-col space-y-4">
+            <TagInput />
+            <StepCreator />
+          </div>
+          <Divider className="my-4" />
           <Button color="primary" onClick={methods.handleSubmit(onSubmit)}>
             Submit
           </Button>

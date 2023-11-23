@@ -35,7 +35,7 @@ export default function StepCreator() {
         </div>
         {fields.map((step, index) => (
           <div key={step.id}>
-            <div className="grid grid-cols-[4fr_2fr] gap-x-4 gap-y-2">
+            <div className="grid grid-cols-[4fr_2fr] gap-2">
               <Controller
                 control={control}
                 name={`steps.${index}.description`}
@@ -46,6 +46,8 @@ export default function StepCreator() {
                     label="Step Description"
                     variant="bordered"
                     isRequired
+                    isInvalid={!!fieldState.error}
+                    errorMessage={fieldState.error?.message}
                   />
                 )}
               />
@@ -63,6 +65,8 @@ export default function StepCreator() {
                     variant="bordered"
                     isRequired
                     size="sm"
+                    isInvalid={!!fieldState.error}
+                    errorMessage={fieldState.error?.message}
                   />
                 )}
               />
@@ -79,6 +83,8 @@ export default function StepCreator() {
                     selectedKeys={[field.value]}
                     defaultSelectedKeys={["PREP"]}
                     size="sm"
+                    isInvalid={!!fieldState.error}
+                    errorMessage={fieldState.error?.message}
                   >
                     {["PREP", "COOK", "REST", "SEASON", "SERVE", "MIX"].map(
                       (stepType) => (
