@@ -2,6 +2,8 @@ import React from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import {
   Button,
+  Card,
+  CardBody,
   Divider,
   Input,
   Select,
@@ -34,90 +36,90 @@ export default function StepCreator() {
           </Button>
         </div>
         {fields.map((step, index) => (
-          <div key={step.id}>
-            <div className="grid grid-cols-[4fr_2fr] gap-2">
-              <Controller
-                control={control}
-                name={`steps.${index}.description`}
-                render={({ field, fieldState }) => (
-                  <Textarea
-                    className="row-span-2"
-                    {...field}
-                    label="Step Description"
-                    variant="bordered"
-                    isRequired
-                    isInvalid={!!fieldState.error}
-                    errorMessage={fieldState.error?.message}
-                  />
-                )}
-              />
-              <Controller
-                control={control}
-                name={`steps.${index}.duration`}
-                render={({ field, fieldState }) => (
-                  <Input
-                    {...field}
-                    onChange={(event) => {
-                      field.onChange(+event.target.value);
-                    }}
-                    type="number"
-                    label="Duration"
-                    variant="bordered"
-                    isRequired
-                    size="sm"
-                    isInvalid={!!fieldState.error}
-                    errorMessage={fieldState.error?.message}
-                  />
-                )}
-              />
+          <Card>
+            <CardBody key={step.id}>
+              <div className="grid grid-cols-[4fr_2fr] gap-x-2">
+                <Controller
+                  control={control}
+                  name={`steps.${index}.description`}
+                  render={({ field, fieldState }) => (
+                    <Textarea
+                      className="row-span-2"
+                      {...field}
+                      label="Step Description"
+                      variant="bordered"
+                      isRequired
+                      isInvalid={!!fieldState.error}
+                      errorMessage={fieldState.error?.message}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name={`steps.${index}.duration`}
+                  render={({ field, fieldState }) => (
+                    <Input
+                      {...field}
+                      onChange={(event) => {
+                        field.onChange(+event.target.value);
+                      }}
+                      type="number"
+                      label="Duration"
+                      variant="bordered"
+                      isRequired
+                      size="sm"
+                      isInvalid={!!fieldState.error}
+                      errorMessage={fieldState.error?.message}
+                    />
+                  )}
+                />
 
-              <Controller
-                control={control}
-                name={`steps.${index}.stepType`}
-                render={({ field, fieldState }) => (
-                  <Select
-                    {...field}
-                    isRequired
-                    label="Step Type"
-                    variant="bordered"
-                    selectedKeys={[field.value]}
-                    defaultSelectedKeys={["PREP"]}
-                    size="sm"
-                    isInvalid={!!fieldState.error}
-                    errorMessage={fieldState.error?.message}
-                  >
-                    {["PREP", "COOK", "REST", "SEASON", "SERVE", "MIX"].map(
-                      (stepType) => (
-                        <SelectItem
-                          key={stepType}
-                          value={stepType as RecipeStepType}
-                          className="capitalize"
-                        >
-                          {stepType}
-                        </SelectItem>
-                      ),
-                    )}
-                  </Select>
-                )}
-              />
-            </div>
-            <div className="flex justify-end py-2">
-              <Button
-                className="place-self-stretch"
-                color="danger"
-                type="button"
-                variant="flat"
-                size="sm"
-                onClick={() => remove(index)}
-              >
-                Remove Step
-              </Button>
-            </div>
+                <Controller
+                  control={control}
+                  name={`steps.${index}.stepType`}
+                  render={({ field, fieldState }) => (
+                    <Select
+                      {...field}
+                      isRequired
+                      label="Step Type"
+                      variant="bordered"
+                      selectedKeys={[field.value]}
+                      defaultSelectedKeys={["PREP"]}
+                      size="sm"
+                      isInvalid={!!fieldState.error}
+                      errorMessage={fieldState.error?.message}
+                    >
+                      {["PREP", "COOK", "REST", "SEASON", "SERVE", "MIX"].map(
+                        (stepType) => (
+                          <SelectItem
+                            key={stepType}
+                            value={stepType as RecipeStepType}
+                            className="capitalize"
+                          >
+                            {stepType}
+                          </SelectItem>
+                        ),
+                      )}
+                    </Select>
+                  )}
+                />
+              </div>
+              <div className="flex justify-end py-2">
+                <Button
+                  className="place-self-stretch"
+                  color="danger"
+                  type="button"
+                  variant="flat"
+                  size="sm"
+                  onClick={() => remove(index)}
+                >
+                  Remove Step
+                </Button>
+              </div>
 
-            <IngredientCreator stepIndex={index} />
-
-            <Divider className="my-4" />
-          </div>
+              <IngredientCreator stepIndex={index} />
+            </CardBody>
+          </Card>
         ))}
       </div>
     </>

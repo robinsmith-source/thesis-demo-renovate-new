@@ -4,12 +4,13 @@ import { api } from "~/trpc/server";
 import { Card, CardHeader } from "@nextui-org/card";
 import { Image } from "@nextui-org/react";
 import NextImage from "next/image";
+import { notFound } from "next/navigation";
 
 export default async function RecipeCard({ recipeId }: { recipeId: string }) {
   const recipe = await api.recipe.getRecipePreview.query({ id: recipeId });
 
   if (!recipe) {
-    return null;
+    return notFound();
   }
   return (
     <Link href={`/recipe/${recipe.id}`}>
@@ -22,7 +23,7 @@ export default async function RecipeCard({ recipeId }: { recipeId: string }) {
           as={NextImage}
           width={300}
           height={300}
-          src="https://placekitten.com/500/300"
+          src={`https://utfs.io/f/${recipe.images[0]}`}
           alt="Card background"
           className="z-0 h-full w-full object-cover brightness-75"
         />

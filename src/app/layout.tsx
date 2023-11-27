@@ -9,6 +9,9 @@ import { Providers } from "~/app/providers";
 import { getServerSession } from "next-auth";
 import MainNavbar from "~/app/_components/MainNavbar";
 import SessionProvider from "~/app/_components/SessionProvider";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { chefFileRouter } from "~/app/api/uploadthing/core";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,6 +36,7 @@ export default async function RootLayout({
       <body
         className={`font-sans ${inter.variable} min-h-screen bg-background text-foreground`}
       >
+        <NextSSRPlugin routerConfig={extractRouterConfig(chefFileRouter)} />
         <SessionProvider session={session}>
           <Providers>
             <MainNavbar />

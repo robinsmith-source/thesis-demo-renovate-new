@@ -96,6 +96,7 @@ model Recipe {
     labels      RecipeLabel[]
     reviews     RecipeReview[]
     tags        String[]
+    images      String[]
 
     author     User   @relation("RecipeAuthor", fields: [authorId], references: [id])
     authorId   String

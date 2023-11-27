@@ -18,9 +18,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 import TagInput from "./tagInput";
+import ImageUploader from "./ImageUploader";
 import StepCreator from "./StepCreator";
 import { api } from "~/trpc/react";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   type RecipeForm = Recipe & {
@@ -43,6 +45,7 @@ export default function Page() {
       .refine((items) => new Set(items).size === items.length, {
         message: "Must be an array of unique strings",
       }),
+    images: z.array(z.string()),
     steps: z.array(
       z.object({
         description: z.string().min(3),
@@ -78,13 +81,16 @@ export default function Page() {
       name: "",
       description: "",
       difficulty: "EASY",
+      images: [],
       tags: [],
       steps: [],
     },
   });
 
   const mutation = api.recipe.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (id) => {
+      console.log(id);
+      router.push(`/recipe/${id}`);
       methods.reset({
         name: "",
         description: "",
@@ -95,12 +101,15 @@ export default function Page() {
     },
   });
 
+  const router = useRouter();
+
   const onSubmit = (data: RecipeForm) => {
     mutation.mutate({
       name: data.name,
       description: data.description,
       difficulty: data.difficulty,
       tags: data.tags,
+      images: data.images,
       steps: data.steps.map((step) => ({
         description: step.description,
         duration: step.duration,
@@ -158,7 +167,7 @@ export default function Page() {
                 </Select>
               )}
             />
-
+            <ImageUploader />
             <Controller
               control={methods.control}
               name="description"
