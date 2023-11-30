@@ -1,21 +1,42 @@
-import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Image,
+  Progress,
+} from "@nextui-org/react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { generateClientDropzoneAccept } from "uploadthing/client";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { useUploadThing } from "~/app/lib/uploadthing";
 import { SetStateAction, useCallback, useState } from "react";
+import { FaCircleXmark, FaCloudArrowUp } from "react-icons/fa6";
+import { api } from "~/trpc/react";
+import { CardHeader } from "@nextui-org/card";
 
-function UploadButton() {
+export default function ImageUploader() {
+  const { control, getValues } = useFormContext();
+
+  const { fields, append, remove } = useFieldArray({
+    control: control,
+    name: "images",
+  });
+
   const [files, setFiles] = useState<File[]>([]);
   const onDrop = useCallback((acceptedFiles: SetStateAction<File[]>) => {
     setFiles(acceptedFiles);
   }, []);
+
+  //TODO: Change this to toast notifications
   const { startUpload, isUploading, permittedFileInfo } = useUploadThing(
     "recipeImagesUploader",
     {
-      onClientUploadComplete: () => {
-        //TODO: Change this to toast notifications
-        alert("uploaded successfully!");
+      onClientUploadComplete: (res) => {
+        res.forEach((file) => {
+          append(file.key);
+        });
+        setFiles([]);
       },
       onUploadError: () => {
         alert("error occurred while uploading");
@@ -26,6 +47,7 @@ function UploadButton() {
     },
   );
 
+  const mutation = api.recipe.deleteRecipeImage.useMutation();
   const fileTypes = permittedFileInfo?.config
     ? Object.keys(permittedFileInfo?.config)
     : [];
@@ -36,59 +58,63 @@ function UploadButton() {
   });
 
   return (
-    <Card>
-      <CardBody className="h-64 p-4">
+    <Card className="col-span-2">
+      {isUploading && (
+        <CardHeader aria-label="Progressbar">
+          <Progress isIndeterminate />
+        </CardHeader>
+      )}
+      <CardBody className="h-56 p-4">
         <div
           {...getRootProps()}
-          className="flex h-full items-center justify-center rounded-xl border-1 border-dashed border-black"
+          className="flex h-full items-center justify-center rounded-xl border-2 border-dashed border-primary"
         >
           <input {...getInputProps()} />
-          <p className="text-center">
-            <span className="font-bold">Click to upload</span>
-            <br />
-            or drag and drop files here
+          <p className="flex flex-col items-center">
+            <FaCloudArrowUp size={50} className="mb-4" />
+            <span className="font-semibold">Choose files or drag and drop</span>
+            <span className="text-xs font-light">(Image 4MB)</span>
           </p>
         </div>
-      </CardBody>
-      <CardFooter>
         {files.length > 0 && (
-          <Button onClick={() => startUpload(files)}>
-            Upload {files.length} files
+          <Button onClick={() => startUpload(files)} className="mt-4">
+            Upload {files.length} selected file/s
           </Button>
         )}
-      </CardFooter>
+      </CardBody>
+      {fields.length > 0 && (
+        <CardFooter>
+          <div className="flex gap-2">
+            {fields.map((image, index) => (
+              <div
+                className="group relative grid h-24 w-24 place-items-center overflow-hidden rounded-large bg-black/10 p-1"
+                key={image.id}
+              >
+                <Image
+                  width={100}
+                  height={100}
+                  alt={`Recipe image ${index}`}
+                  src={`https://utfs.io/f/${getValues(`images.${index}`)}`}
+                />
+
+                <div className="absolute inset-0 z-10 grid place-items-center bg-black/20 text-white opacity-0 transition focus-within:opacity-100 hover:opacity-100">
+                  <Button
+                    isIconOnly
+                    onClick={() => {
+                      mutation.mutate({
+                        key: getValues(`images.${index}`) as string,
+                      });
+                      remove(index);
+                    }}
+                  >
+                    <FaCircleXmark />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardFooter>
+      )}
     </Card>
-  );
-}
-
-export default function ImageUploader() {
-  const { control, getValues } = useFormContext();
-
-  const { fields, append, remove } = useFieldArray({
-    control: control,
-    name: "images",
-  });
-
-  return (
-    <>
-      {fields.map((image, index) => (
-        <div>
-          <Image
-            key={image.id}
-            width={200}
-            height={200}
-            src={`https://utfs.io/f/${getValues(`images.${index}`)}`}
-          />
-          <Button
-            onClick={() => {
-              remove(index);
-            }}
-          >
-            Delete
-          </Button>
-        </div>
-      ))}
-      <UploadButton />
-    </>
   );
 }
