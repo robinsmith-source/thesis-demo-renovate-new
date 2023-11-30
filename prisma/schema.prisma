@@ -90,12 +90,12 @@ model Recipe {
 
   name             String
   description      String?
-  requiredUtensils String[]
   difficulty       RecipeDifficulty
   steps            RecipeStep[]
   labels           RecipeLabel[]    @relation("RecipeLabels")
   reviews          RecipeReview[]
   tags             String[]
+  images           String[]
 
   author     User   @relation("RecipeAuthor", fields: [authorId], references: [id])
   authorId   String

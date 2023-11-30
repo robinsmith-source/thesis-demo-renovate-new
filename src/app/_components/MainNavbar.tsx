@@ -45,6 +45,9 @@ function LoginBar({ session }: { session: Session }) {
             as={NextLink} key="settings" href={`/user/${session.user.id}`}>
           My Profile
         </DropdownItem>
+        <DropdownItem as={NextLink} key="create-recipe" href={`/recipe/create`}>
+          Create Recipe
+        </DropdownItem>
         <DropdownItem
             as={NextLink} key="logout" color="danger" href={"/api/auth/signout"}>
           Log Out

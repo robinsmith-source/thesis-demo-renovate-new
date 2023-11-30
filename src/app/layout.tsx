@@ -9,6 +9,9 @@ import { Providers } from "~/app/providers";
 import MainNavbar from "~/app/_components/MainNavbar";
 import SessionProvider from "~/app/_components/SessionProvider";
 import { getServerAuthSession } from "~/server/auth";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { chefFileRouter } from "~/app/api/uploadthing/core";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,13 +30,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerAuthSession();
-  
+
   return (
     //Currently there is no better solution than suppressing the error message: https://github.com/pacocoursey/next-themes/issues/169
     <html lang="en" suppressHydrationWarning>
       <body
         className={`font-sans ${inter.variable} min-h-screen bg-background  text-foreground`}
       >
+        <NextSSRPlugin routerConfig={extractRouterConfig(chefFileRouter)} />
         <SessionProvider session={session}>
           <Providers>
             <MainNavbar />

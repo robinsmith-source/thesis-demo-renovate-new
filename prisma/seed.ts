@@ -99,6 +99,7 @@ async function seedUserRecipes() {
             description:
               "A classic Italian pasta dish with creamy egg sauce and crispy bacon.",
             difficulty: "MEDIUM",
+            images: [],
             labels: {
               connect: [
                 {
@@ -223,6 +224,7 @@ async function seedUserRecipes() {
             description:
               "A healthy and delicious salad with grilled chicken and fresh veggies.",
             difficulty: "EASY",
+            images: [],
             labels: {
               connect: [
                 {
@@ -324,6 +326,7 @@ async function seedUserRecipes() {
             description:
               "A colorful pasta dish with fresh spring vegetables and a creamy sauce.",
             difficulty: "MEDIUM",
+            images: [],
             labels: {
               connect: [
                 {
@@ -449,6 +452,7 @@ async function seedUserRecipes() {
             description:
               "A hearty and comforting beef stew with tender meat and a rich, flavorful broth.",
             difficulty: "EXPERT",
+            images: [],
             labels: {
               connect: [
                 {
@@ -682,6 +686,7 @@ async function seedUserRecipes() {
             description:
               "A classic and simple Italian pizza with fresh tomatoes, mozzarella, basil, and olive oil.",
             difficulty: "EASY",
+            images: [],
             labels: {
               connect: [
                 {

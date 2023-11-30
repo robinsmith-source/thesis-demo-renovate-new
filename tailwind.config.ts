@@ -1,8 +1,9 @@
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import { nextui } from "@nextui-org/react";
+import { withUt } from "uploadthing/tw";
 
-export default {
+export default withUt({
   content: [
     "./src/**/*.tsx",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
@@ -145,4 +146,4 @@ export default {
       },
     }),
   ],
-} satisfies Config;
+} satisfies Config);
