@@ -89,6 +89,7 @@ export const recipeRouter = createTRPCRouter({
           name: { contains: input.name },
           difficulty: input.difficulty,
           tags: { hasEvery: input.tags },
+          labels: { some: { name: { in: input.labels } } },
           author: { name: { contains: input.author } },
         },
         include: {
