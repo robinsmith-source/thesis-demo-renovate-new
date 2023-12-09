@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa6";
+import { FaRegStar, FaStar } from "react-icons/fa6";
+import { motion } from "framer-motion";
 
 //TODO: Consider implement a better rating input. This just works for now
 export default function RatingInput({
@@ -24,21 +25,24 @@ export default function RatingInput({
   };
 
   return (
-    <div className="flex">
-      {[1, 2, 3, 4, 5].map((index) => (
-        <span
-          key={index}
-          onMouseEnter={() => handleMouseEnter(index)}
-          onMouseLeave={handleMouseLeave}
-          onClick={() => handleClick(index)}
-        >
-          {index <= (hoverValue || value) ? (
-            <FaStar color="orange" size={20} />
-          ) : (
-            <FaRegStar size={20} />
-          )}
-        </span>
-      ))}
-    </div>
+    <>
+      <ul className="flex gap-1 p-2" onMouseLeave={handleMouseLeave}>
+        {[1, 2, 3, 4, 5].map((index) => (
+          <motion.li
+            key={index}
+            onMouseEnter={() => handleMouseEnter(index)}
+            onClick={() => handleClick(index)}
+            whileHover={{ scale: 1.2 }}
+            exit={{ scale: 1, transition: { duration: 0.5 } }}
+          >
+            {index <= (hoverValue || value) ? (
+              <FaStar className="fill-orange-400" size={20} />
+            ) : (
+              <FaRegStar size={20} />
+            )}
+          </motion.li>
+        ))}
+      </ul>
+    </>
   );
 }

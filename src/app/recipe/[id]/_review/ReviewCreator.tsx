@@ -5,7 +5,6 @@ import React from "react";
 import { z } from "zod";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
-import { RecipeReview } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import RatingInput from "./RatingInput";
@@ -38,7 +37,7 @@ export default function ReviewCreator({ recipeId }: { recipeId: string }) {
     },
   });
 
-  const onSubmit = (data: RecipeReview) => {
+  const onSubmit = (data: { rating: number; comment: string }) => {
     mutation.mutate({
       rating: data.rating,
       comment: data.comment,
@@ -67,7 +66,6 @@ export default function ReviewCreator({ recipeId }: { recipeId: string }) {
             <Textarea
               {...field}
               minRows={3}
-              isRequired
               label="Comment"
               placeholder="I really liked this recipe!"
               isInvalid={!!fieldState.error}

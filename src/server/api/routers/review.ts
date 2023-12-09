@@ -35,7 +35,15 @@ export const reviewRouter = createTRPCRouter({
     .query(({ input, ctx }) => {
       return ctx.db.recipeReview.findMany({
         where: { recipeId: input.recipeId },
-        include: { author: true },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
       });
     }),
 
