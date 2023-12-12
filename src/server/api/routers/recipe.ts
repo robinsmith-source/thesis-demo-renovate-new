@@ -61,7 +61,7 @@ export const recipeRouter = createTRPCRouter({
         take: z.number().min(1).max(50),
         name: z.string().optional(),
         difficulty: z.enum(["EASY", "MEDIUM", "HARD", "EXPERT"]).optional(),
-        labels: z.array(z.string()).optional(),
+        labels: z.array(z.string()).nullable(),
         tags: z.array(z.string()).optional(),
         authorId: z.string().cuid().optional(),
       }),

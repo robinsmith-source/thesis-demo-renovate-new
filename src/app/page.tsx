@@ -7,6 +7,7 @@ export default async function Home() {
   const featuredRecipes = await api.recipe.getRecipesAdvanced.query({
     take: 6,
     tags: [],
+    labels: [],
   });
 
   return (
