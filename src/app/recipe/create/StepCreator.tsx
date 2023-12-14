@@ -41,6 +41,7 @@ export default function StepCreator() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ type: "spring", bounce: 0.2 }}
         >
           <Card>
             <CardHeader className="flex justify-between">

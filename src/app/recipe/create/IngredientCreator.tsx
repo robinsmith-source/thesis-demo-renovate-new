@@ -25,8 +25,9 @@ export default function IngredientCreator({
 
   return (
     <div className="ml-8 space-y-4">
-      <Accordion>
+      <Accordion defaultExpandedKeys={["Ingredients"]}>
         <AccordionItem
+          key="Ingredients"
           startContent={
             <div className="flex gap-2">
               <h3 className="text-lg">Step Ingredients</h3>
