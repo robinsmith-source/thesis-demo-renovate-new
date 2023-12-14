@@ -2,13 +2,15 @@
 import React from "react";
 import {Button, Input, Tab, Tabs} from "@nextui-org/react";
 import { usePathname } from "next/navigation";
+import {MailIcon} from "@nextui-org/shared-icons";
+import {api} from "~/trpc/server";
 export default function RecipeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const handleSearch() = async () => {
+  const handleSearch = async () => {
       const response = await api.recipe.getRecipesAdvanced.query(
             {
                 take: 20,
@@ -24,12 +26,12 @@ export default function RecipeLayout({
           </Tabs>
           <Input
               type="text"
-              size="small"
+              size="sm"
               width="50px"
               placeholder="Search recipes..."
               endContent=
                   {
-              <MailIcon onClick={}/>
+              <MailIcon onClick={handleSearch}/>
           }
           />
       </div>
@@ -37,4 +39,4 @@ export default function RecipeLayout({
       {children}
     </main>
   );
-}
+}}
