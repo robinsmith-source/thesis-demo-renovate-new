@@ -62,6 +62,40 @@ export const reviewRouter = createTRPCRouter({
       });
     }),
 
+  update: protectedProcedure
+    .input(
+      z.object({
+        recipeId: z.string().cuid(),
+        rating: z.number().min(1).max(5),
+        comment: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const existingReview = await ctx.db.recipeReview.findFirst({
+        where: {
+          recipeId: input.recipeId,
+          authorId: ctx.session.user.id,
+        },
+      });
+
+      if (!existingReview) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Review not found",
+        });
+      }
+
+      return ctx.db.recipeReview.update({
+        where: {
+          id: existingReview.id,
+        },
+        data: {
+          rating: input.rating,
+          comment: input.comment,
+        },
+      });
+    }),
+
   delete: protectedProcedure
     .input(
       z.object({

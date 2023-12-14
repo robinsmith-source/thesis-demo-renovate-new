@@ -1,7 +1,7 @@
 import { api } from "~/trpc/server";
-import ReviewCreator from "./ReviewCreator";
 import React from "react";
 import ReviewCard from "./ReviewCard";
+import ReviewForm from "~/app/recipe/[id]/_review/ReviewForm";
 
 export default async function ReviewSection({
   recipeId,
@@ -11,8 +11,8 @@ export default async function ReviewSection({
   const reviews = await api.review.get.query({ recipeId });
 
   return (
-    <>
-      <ReviewCreator recipeId={recipeId} />
+    <section className="flex flex-col items-center">
+      <ReviewForm recipeId={recipeId} />
       {reviews && reviews.length > 0 && (
         <div className="mt-4 flex justify-center gap-2">
           {reviews.map((review) => (
@@ -20,6 +20,6 @@ export default async function ReviewSection({
           ))}
         </div>
       )}
-    </>
+    </section>
   );
 }

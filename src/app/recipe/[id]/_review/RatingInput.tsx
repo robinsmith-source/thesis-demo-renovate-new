@@ -2,7 +2,6 @@ import { useState } from "react";
 import { FaRegStar, FaStar } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
-//TODO: Consider implement a better rating input. This just works for now
 export default function RatingInput({
   value,
   onChange,
