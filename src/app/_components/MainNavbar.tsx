@@ -116,7 +116,7 @@ export default function MainNavbar() {
               </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions">
-              <DropdownItem key="Recipes" href="/recipes/public" as={NextLink}>
+              <DropdownItem key="Recipes" href="/explore" as={NextLink}>
                 Recipes
               </DropdownItem>
               <DropdownItem key="Users" href="/users" as={NextLink}>
