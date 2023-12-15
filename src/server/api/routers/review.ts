@@ -41,7 +41,7 @@ export const reviewRouter = createTRPCRouter({
       });
     }),
 
-  get: publicProcedure
+  getOthers: publicProcedure
     .input(
       z.object({
         recipeId: z.string().cuid(),
@@ -49,7 +49,10 @@ export const reviewRouter = createTRPCRouter({
     )
     .query(({ input, ctx }) => {
       return ctx.db.recipeReview.findMany({
-        where: { recipeId: input.recipeId },
+        where: {
+          recipeId: input.recipeId,
+          authorId: { not: ctx.session?.user.id },
+        },
         include: {
           author: {
             select: {
@@ -58,6 +61,26 @@ export const reviewRouter = createTRPCRouter({
               image: true,
             },
           },
+        },
+      });
+    }),
+
+  getMyReview: protectedProcedure
+    .input(
+      z.object({
+        recipeId: z.string().cuid(),
+      }),
+    )
+    .query(({ input, ctx }) => {
+      return ctx.db.recipeReview.findFirst({
+        where: {
+          recipeId: input.recipeId,
+          authorId: ctx.session.user.id,
+        },
+        select: {
+          id: true,
+          rating: true,
+          comment: true,
         },
       });
     }),
