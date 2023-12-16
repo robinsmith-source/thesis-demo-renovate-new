@@ -79,7 +79,7 @@ export default function MainNavbar() {
 
   const menuItems = [
     { name: "Home", href: "/" },
-    { name: "Explore Recipes", href: "/explore" },
+    { name: "Explore Recipes", href: "/recipe/search" },
     { name: "About(WIP)", href: "/about" },
     { name: "Contact(WIP)", href: "/contact" },
   ];
@@ -112,18 +112,23 @@ export default function MainNavbar() {
       </NavbarContent>
 
       <NavbarContent justify="center" className="hidden sm:flex">
-        <NavbarItem as={NextLink} href="/">
-          <Button size="lg" variant="light">
+        <NavbarItem className="p-2">
+          <Link
+            as={NextLink}
+            className="w-full text-default-600"
+            size="lg"
+            href="/"
+          >
             Home
-          </Button>
+          </Link>
         </NavbarItem>
 
-        <NavbarItem>
+        <NavbarItem className="p-2">
           <Dropdown>
             <DropdownTrigger>
-              <Button size="lg" variant="light">
+              <Link className="w-full text-default-600" size="lg">
                 Explore
-              </Button>
+              </Link>
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions">
               <DropdownItem key="Recipes" href="/recipe/search" as={NextLink}>
@@ -161,9 +166,11 @@ export default function MainNavbar() {
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item.name}-${index}`}>
             <Link
-              className="w-full text-default-600"
+              as={NextLink}
               href={item.href}
+              className="w-full text-default-600"
               size="lg"
+              onClick={() => setIsMenuOpen(false)}
             >
               {item.name}
             </Link>
