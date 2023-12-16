@@ -31,13 +31,12 @@ export default function ReviewCard({
 
   return (
     <Card className="w-[36rem]">
-      <CardHeader>
+      <CardHeader className="-mb-4">
         <ReviewRating rating={rating} />
-        {handleEditClick && <Button onClick={handleEditClick}>Edit</Button>}
       </CardHeader>
-      {comment && <CardBody>{comment}</CardBody>}
-      {author && (
-        <CardFooter className="flex justify-end">
+      {comment && <CardBody className="px-6">{comment}</CardBody>}
+      <CardFooter className="flex justify-end">
+        {author && (
           <User
             name={
               <Link
@@ -55,8 +54,13 @@ export default function ReviewCard({
               size: "sm",
             }}
           />
-        </CardFooter>
-      )}
+        )}
+        {handleEditClick && (
+          <Button onClick={handleEditClick} color="secondary">
+            Edit
+          </Button>
+        )}
+      </CardFooter>
     </Card>
   );
 }

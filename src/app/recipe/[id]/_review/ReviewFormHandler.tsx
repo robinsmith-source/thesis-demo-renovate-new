@@ -2,9 +2,9 @@
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import ReviewForm from "./ReviewForm";
 import ReviewCard from "./ReviewCard";
+import { AnimatePresence, motion } from "framer-motion";
 
 enum Modes {
   CREATE,
@@ -43,8 +43,6 @@ export default function ReviewFormHandler({
     }
   }, []);
 
-  const router = useRouter();
-
   const onCreate = (data: { rating: number; comment: string | null }) => {
     createMutation.mutate({
       rating: data.rating,
@@ -78,29 +76,21 @@ export default function ReviewFormHandler({
 
   const editMutation = api.review.update.useMutation({
     onSuccess: (data) => {
-      toast.success("Review submitted successfully");
+      toast.success("Review edited successfully");
       setSubmittedReview({
         id: data.id,
         rating: data.rating,
         comment: data.comment,
       });
       setMode(Modes.VIEW);
-      router.refresh();
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
-  return (
-    <div>
-      {mode === Modes.CREATE || mode === Modes.EDIT ? (
-        <h2 className="text-2xl font-bold">
-          {mode === Modes.CREATE ? "Create" : "Edit"} Review
-        </h2>
-      ) : (
-        <h2 className="text-2xl font-bold">Your Review</h2>
-      )}
 
+  return (
+    <>
       {mode === Modes.CREATE && <ReviewForm submit={onCreate} formValue={{}} />}
       {mode === Modes.EDIT && submittedReview && (
         <ReviewForm submit={onEdit} formValue={submittedReview} />
@@ -113,6 +103,6 @@ export default function ReviewFormHandler({
           }}
         />
       )}
-    </div>
+    </>
   );
 }

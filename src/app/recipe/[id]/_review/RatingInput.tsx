@@ -31,8 +31,12 @@ export default function RatingInput({
             key={index}
             onMouseEnter={() => handleMouseEnter(index)}
             onClick={() => handleClick(index)}
-            whileHover={{ scale: 1.2 }}
-            exit={{ scale: 1, transition: { duration: 0.5 } }}
+            whileHover={{
+              scale: 1.2,
+              rotate: 30,
+              transition: { duration: 0.5 },
+            }}
+            exit={{ scale: 1, rotate: 0, transition: { duration: 0.5 } }}
           >
             {index <= (hoverValue || value) ? (
               <FaStar className="fill-orange-400" size={20} />

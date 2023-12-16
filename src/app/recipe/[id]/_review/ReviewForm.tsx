@@ -37,7 +37,7 @@ export default function ReviewForm({
 
   return (
     <Card className={"w-[36rem]"}>
-      <CardHeader className="-mb-4 flex justify-between">
+      <CardHeader className="-mb-4">
         <Controller
           control={control}
           name="rating"
