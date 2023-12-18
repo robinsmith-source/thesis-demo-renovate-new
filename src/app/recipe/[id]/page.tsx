@@ -1,11 +1,11 @@
 import { api } from "~/trpc/server";
 import React from "react";
-import { Button, Chip, Image, Link } from "@nextui-org/react";
+import { Button, Card, Chip, Image, Link } from "@nextui-org/react";
 import NextImage from "next/image";
-import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import RecipeStep from "./RecipeStep";
 import IngredientTable from "./IngredientTable";
+import ImageCarousel from "./ImageCarousel";
 import { getServerAuthSession } from "~/server/auth";
 import { FaPenToSquare } from "react-icons/fa6";
 
@@ -45,25 +45,15 @@ export default async function Page({ params }: { params: { id: string } }) {
               {recipe.author.name}
             </Link>
           </p>
-          <div className="flex gap-2">
-            {recipe.tags.map((tag) => (
-              <Chip key={tag}>{tag}</Chip>
+
+          <div className="my-2 flex gap-2">
+            {recipe.labels.map((label) => (
+              <Chip key={label.id}>{label.name}</Chip>
             ))}
           </div>
           <p>{recipe.description}</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {recipe.images?.map((image) => (
-            <Image
-              as={NextImage}
-              alt={`Recipe Image`}
-              src={`https://utfs.io/f/${image}`}
-              key={image}
-              width={200}
-              height={200}
-            />
-          ))}
-        </div>
+        <ImageCarousel images={recipe.images} />
         <IngredientTable recipeSteps={recipe.steps} />
       </div>
 
@@ -80,6 +70,11 @@ export default async function Page({ params }: { params: { id: string } }) {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="mt-4 flex justify-center gap-2">
+        {recipe.tags.map((tag) => (
+          <Chip key={tag}>#{tag}</Chip>
+        ))}
       </div>
     </main>
   );

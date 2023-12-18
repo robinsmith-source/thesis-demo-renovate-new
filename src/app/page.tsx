@@ -1,10 +1,10 @@
 import { api } from "~/trpc/server";
 import RecipeCard from "~/app/_components/RecipeCard";
-import { Input, Image } from "@nextui-org/react";
+import { Image, Input } from "@nextui-org/react";
 import NextImage from "next/image";
 
 export default async function Home() {
-  const featuredRecipes = await api.recipe.getFeaturedRecipes.query({
+  const featuredRecipes = await api.recipe.getRecipesAdvanced.query({
     take: 6,
   });
 
@@ -14,11 +14,11 @@ export default async function Home() {
         {/* Goose chef logo */}
         <Image
           as={NextImage}
+          width={100}
+          height={100}
           src="/images/Logo_round_V2.png"
           alt="Logo"
           className="mb-2 h-24 w-24 object-contain"
-          height={96}
-          width={96}
         />
       </div>
       <div className="mb-4 w-full md:w-1/2">
