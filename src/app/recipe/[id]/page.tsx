@@ -1,10 +1,11 @@
 import { api } from "~/trpc/server";
-import React from "react";
-import { Card, Chip, Image, Link } from "@nextui-org/react";
-import NextImage from "next/image";
+import { Chip, Divider, Link } from "@nextui-org/react";
 import { notFound } from "next/navigation";
 import RecipeStep from "./RecipeStep";
 import IngredientTable from "./IngredientTable";
+import ReviewSection from "~/app/recipe/[id]/_review/ReviewSection";
+import { getServerAuthSession } from "~/server/auth";
+import ImageCarousel from "./ImageCarousel";
 import DifficultyChip from "~/app/_components/DifficultyChip";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -12,6 +13,9 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (!recipe) {
     notFound();
   }
+
+  const session = await getServerAuthSession();
+
   return (
     <main>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -36,21 +40,9 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
           <p>{recipe.description}</p>
         </div>
-        <Card className="row-span-2 h-96 place-self-center">
-          <Image
-            as={NextImage}
-            priority
-            width={500}
-            height={300}
-            removeWrapper
-            alt="recipe header"
-            className="z-0 h-full w-full object-cover"
-            src="https://placekitten.com/500/300"
-          />
-        </Card>
+        <ImageCarousel images={recipe.images} />
         <IngredientTable recipeSteps={recipe.steps} />
       </div>
-
       <div>
         <table>
           <thead>
@@ -70,6 +62,11 @@ export default async function Page({ params }: { params: { id: string } }) {
           <Chip key={tag}>#{tag}</Chip>
         ))}
       </div>
+      <Divider className="my-4" />
+      <ReviewSection
+        recipeId={recipe.id}
+        showReviewForm={recipe.author.id !== session?.user.id}
+      />
     </main>
   );
 }
