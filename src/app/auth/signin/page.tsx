@@ -1,13 +1,11 @@
 "use client";
-import type { ClientSafeProvider, LiteralUnion } from "next-auth/react";
-import { getProviders, signIn, useSession } from "next-auth/react";
 import type { BuiltInProviderType } from "next-auth/providers";
 import { Button, CardBody, CardHeader } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+import { LiteralUnion, signIn } from "next-auth/react";
+import { ClientSafeProvider } from "next-auth/lib/client";
 
 export default function SignIn() {
-  const { status } = useSession();
-
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
@@ -15,7 +13,9 @@ export default function SignIn() {
 
   useEffect(() => {
     (async () => {
-      setProviders(await getProviders());
+      setProviders(
+        await fetch("/api/auth/providers").then((res) => res.json()),
+      );
     })().catch((error) => {
       console.log(error);
     });
@@ -36,8 +36,7 @@ export default function SignIn() {
               color="success"
               size="lg"
               className="w-full"
-              isLoading={status === "loading"}
-              onClick={() => signIn(provider.id, { callbackUrl: "/" })}
+              onPress={() => signIn(provider.id, { callbackUrl: "/" })}
             >
               Sign in with {provider.name}
             </Button>
