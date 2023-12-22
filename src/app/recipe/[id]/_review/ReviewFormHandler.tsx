@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import ReviewForm from "./ReviewForm";
 import ReviewCard from "./ReviewCard";
+import { AnimatePresence, motion } from "framer-motion";
 
 enum Modes {
   CREATE,
@@ -109,26 +110,58 @@ export default function ReviewFormHandler({
     },
   });
 
+  const motionConfig = {
+    transition: {
+      type: "spring",
+      bounce: 0.2,
+      duration: 0.2,
+    },
+  };
+
   return (
     <>
-      {mode === Modes.CREATE && <ReviewForm submit={onCreate} formValue={{}} />}
-      {mode === Modes.EDIT && submittedReview && (
-        <ReviewForm
-          submit={(data) => onEdit({ ...data, reviewId: submittedReview.id })}
-          formValue={submittedReview}
-        />
-      )}
-      {mode === Modes.VIEW && submittedReview && (
-        <ReviewCard
-          review={submittedReview}
-          handleEditClick={() => {
-            setMode(Modes.EDIT);
-          }}
-          handleDeleteClick={(reviewId) => {
-            onDelete(reviewId);
-          }}
-        />
-      )}
+      <AnimatePresence mode="wait">
+        {mode === Modes.CREATE && (
+          <motion.div
+            layout
+            layoutId="reviewCard"
+            transition={motionConfig.transition}
+          >
+            <ReviewForm submit={onCreate} formValue={{}} />
+          </motion.div>
+        )}
+        {mode === Modes.EDIT && submittedReview && (
+          <motion.div
+            layout
+            layoutId="reviewCard"
+            transition={motionConfig.transition}
+          >
+            <ReviewForm
+              submit={(data) =>
+                onEdit({ ...data, reviewId: submittedReview.id })
+              }
+              formValue={submittedReview}
+            />
+          </motion.div>
+        )}
+        {mode === Modes.VIEW && submittedReview && (
+          <motion.div
+            layoutId="reviewCard"
+            layout
+            transition={motionConfig.transition}
+          >
+            <ReviewCard
+              review={submittedReview}
+              handleEditClick={() => {
+                setMode(Modes.EDIT);
+              }}
+              handleDeleteClick={(reviewId) => {
+                onDelete(reviewId);
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

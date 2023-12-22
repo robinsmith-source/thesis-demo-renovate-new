@@ -60,8 +60,8 @@ export default function ReviewCard({
         </div>
       </CardHeader>
       {comment && <CardBody className="px-6">{comment}</CardBody>}
-      {author && (
-        <CardFooter className="flex justify-end">
+      <CardFooter className="flex justify-end">
+        {author && (
           <User
             name={
               <Link
@@ -79,8 +79,8 @@ export default function ReviewCard({
               size: "sm",
             }}
           />
-        </CardFooter>
-      )}
+        )}
+      </CardFooter>
     </Card>
   );
 }
