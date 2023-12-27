@@ -22,11 +22,6 @@ export default withUt({
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
-      /*
-      fontWeight: {
-        normal: '400',
-        bold: '700',
-      } */
     },
     darkMode: "class",
   },
