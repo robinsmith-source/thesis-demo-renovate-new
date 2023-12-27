@@ -34,9 +34,9 @@ export default withUt({
       themes: {
         light: {
           colors: {
-            background: "#ebebeb",  // this is the default background color
-            foreground: "#262626",  // use this for text
-            primary: {              // use this for the most important interaction elements
+            background: "#ebebeb",
+            foreground: "#262626",  // default text color
+            primary: {
               "50": "#f0fee7",
               "100": "#defccb",
               "200": "#bef99d",
@@ -49,7 +49,7 @@ export default withUt({
               "900": "#245314",
               DEFAULT: "#6fe534",
             },
-            secondary: {            // use this for secondary interaction elements
+            secondary: {
               "50": "#fbf6fe",
               "100": "#f6ebfc",
               "200": "#eedafa",
@@ -62,7 +62,7 @@ export default withUt({
               "900": "#63297a",
               DEFAULT: "#55176d",
             },
-            success: {              // use this for success messages or accents
+            success: {
               "50": "#edfaff",    
               "100": "#d6f1ff",
               "200": "#b6e9ff",
@@ -75,7 +75,7 @@ export default withUt({
               "900": "#0f4f99",
               DEFAULT: "#0a5bc3",
             },
-            warning: {              // use this for warning messages or accents
+            warning: {
               "50": "#FFF9E7",             
               "100": "#FEF3CC",
               "200": "#FDE399",
@@ -87,7 +87,7 @@ export default withUt({
               "800": "#8C4601",
               "900": "#743600",
             },
-            danger: {               // use this for error messages or accents
+            danger: {
               "50": "#FFEFE7",               
               "100": "#FFE6D7",
               "200": "#FFC8B0",
@@ -104,9 +104,9 @@ export default withUt({
         },
         dark: {
           colors: {
-            background: "#141414",  // this is the default background color
-            foreground: "#d9d9d9", // use this for text
-            primary: {              // use this for the most important interaction elements
+            background: "#141414",
+            foreground: "#d9d9d9",  // default text color
+            primary: {
               "50": "#f1fee7",
               "100": "#dffbcc",
               "200": "#c0f79f",
@@ -119,7 +119,7 @@ export default withUt({
               "900": "#255215",
               DEFAULT: "#55cb1a",
             },
-            secondary: {            // use this for secondary interaction elements
+            secondary: {
               "50": "#fbf7fd",
               "100": "#f6ecfb",
               "200": "#efdcf8",
@@ -132,7 +132,7 @@ export default withUt({
               "900": "#652d76",
               DEFAULT: "#cf92e8",
             },
-            success: {              // use this for success messages or accents
+            success: {
               "50": "#eefbfd",
               "100": "#d4f3f9",
               "200": "#afe6f2",
@@ -145,7 +145,7 @@ export default withUt({
               "900": "#1e465b",
               DEFAULT: "#31b5d6",
             },
-            warning: {            // use this for warning messages or accents
+            warning: {
               "50": "#FEF7E7",
               "100": "#FEF2DD",
               "200": "#FDE3BB",
@@ -157,7 +157,7 @@ export default withUt({
               "800": "#88381A",
               "900": "#70250F",
             },
-            danger: {             // use this for error messages or accents
+            danger: {
               "50": "#FDF0E7",
               "100": "#F9D6D1",
               "200": "#F4A8A5",
