@@ -1,27 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@nextui-org/react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
-type queryInput =
-  | Partial<{
-    name?: string;
-    difficulty?: "EASY" | "MEDIUM" | "HARD" | "EXPERT";
-    labels?: Label[];
-    tags?: string[];
-    authorId?: string;
-  }>
-  | undefined;
-
-type Label = {
-  name: string;
-  category: {
-    name: string;
-  };
-};
 
 export default function AdvancedRecipeSearch() {
   const pathname = usePathname();
@@ -29,19 +12,13 @@ export default function AdvancedRecipeSearch() {
 
   // search parameters
   const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState<queryInput>();
 
   const handleSearch = useDebouncedCallback(
-    (searchFilters: queryInput) => {
+    (searchFilters: string) => {
       const params = new URLSearchParams(searchParams);
 
-      if (searchFilters) {
-        const { name, difficulty, tags, authorId } = searchFilters;
-
-        name != null && params.set("name", name); // "" === null | without this empty search bar does not work
-        difficulty && params.set("difficulty", difficulty ?? "");
-        tags && params.set("tags", tags?.join() ?? "");
-        authorId && params.set("authorId", authorId ?? "");
+      if (searchFilters != null) { // "" === null | without this empty search bar does not work
+        params.set("name", searchFilters); 
       }
       router.replace(`${pathname}?${params.toString()}`);
     },
@@ -49,22 +26,15 @@ export default function AdvancedRecipeSearch() {
   );
 
   return (
-    <>
-      <div className="flex w-full flex-row justify-end">
-        <Input
-          fullWidth
-          type="text"
-          defaultValue={searchParams.get("name")?.toString()}
-          placeholder="Search recipes..."
-          onValueChange={(event: string) => {
-            const name = event;
-            setSearchQuery((prevQuery) => ({ ...prevQuery, name }));
-            handleSearch({ ...searchQuery, name });
-            console.log(event);
-          }}
-          endContent={<FaMagnifyingGlass />}
-        />
-      </div>
-    </>
+    <div className="flex w-full flex-row justify-end">
+      <Input
+        fullWidth
+        type="text"
+        defaultValue={searchParams.get("name")?.toString()}
+        placeholder="Search recipes..."
+        onValueChange={handleSearch}
+        endContent={<FaMagnifyingGlass />}
+      />
+    </div>
   );
 }
