@@ -370,7 +370,7 @@ export const recipeRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.object({ recipeId: z.string().cuid() }))
     .mutation(async ({ ctx, input }) => {
-      const recipe = ctx.db.recipe.findFirst({
+      const recipe = await ctx.db.recipe.findFirst({
         where: { id: input.recipeId, authorId: ctx.session.user.id },
       });
 
@@ -387,8 +387,7 @@ export const recipeRouter = createTRPCRouter({
             authorId: ctx.session.user.id,
           },
         });
-
-        //TODO: delete images from cdn
+        await utapi.deleteFiles(recipe.images);
       });
     }),
 });
