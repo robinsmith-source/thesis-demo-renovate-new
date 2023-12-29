@@ -21,7 +21,6 @@ export default function RecipeDeleteHandler({
   const router = useRouter();
   const deleteMutation = api.recipe.delete.useMutation({
     onSuccess: () => {
-      console.log("deleted");
       toast.success("Recipe deleted");
       router.push("/");
       router.refresh();

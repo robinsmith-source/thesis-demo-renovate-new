@@ -387,7 +387,8 @@ export const recipeRouter = createTRPCRouter({
             authorId: ctx.session.user.id,
           },
         });
-        await utapi.deleteFiles(recipe.images);
+        console.log("img", recipe.images);
+        recipe.images.length > 0 && (await utapi.deleteFiles(recipe.images));
       });
     }),
 });
