@@ -8,10 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useState } from "react";
-import { RecipeStepIngredient } from "@prisma/client";
+import { useEffect, useState } from "react";
+import type { RecipeStepIngredient } from "@prisma/client";
 import { convertUnitName } from "~/app/utils";
-import { calculateIngredients, Ingredient } from "~/utils/IngredientCalculator";
+import {
+  calculateIngredients,
+  type Ingredient,
+} from "~/utils/IngredientCalculator";
 
 export default function IngredientTable({
   className,
@@ -22,11 +25,33 @@ export default function IngredientTable({
   ingredients: RecipeStepIngredient[];
   onSelect: (selectedIngredients: Ingredient[]) => void;
 }) {
-  const [selectedKeys, setSelectedKeys] = useState(new Set());
-  const [portionSize, setPortionSize] = useState<number>(1);
-  const summarizedIngredients = calculateIngredients(ingredients, portionSize);
+  const [selectedKeys, setSelectedKeys] = useState<"all" | Set<string>>(
+    new Set<string>(),
+  );
 
-  //TODO: fix ESLint error
+  const [portionSize, setPortionSize] = useState<number>(1);
+  const [summarizedIngredients, setSummarizedIngredients] = useState(
+    calculateIngredients(ingredients, portionSize),
+  );
+  const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>(
+    [],
+  );
+
+  useEffect(() => {
+    setSummarizedIngredients(calculateIngredients(ingredients, portionSize));
+    if (selectedKeys === "all") {
+      setSelectedIngredients(summarizedIngredients);
+    } else {
+      setSelectedIngredients(
+        summarizedIngredients.filter((_, index) =>
+          selectedKeys.has(index.toString()),
+        ),
+      );
+    }
+  }, [selectedKeys, portionSize]);
+
+  onSelect(selectedIngredients);
+
   return (
     <>
       <Table
@@ -34,17 +59,9 @@ export default function IngredientTable({
         className={`max-w-xs py-4 ${className}`}
         selectionMode="multiple"
         selectedKeys={selectedKeys}
-        onSelectionChange={async (keys) => {
+        onSelectionChange={(keys) => {
+          //TODO: fix ESLint error
           setSelectedKeys(keys);
-          if (keys !== "all") {
-            onSelect(
-              summarizedIngredients.filter((_, index) =>
-                keys.has(index.toString()),
-              ),
-            );
-          } else {
-            onSelect(summarizedIngredients);
-          }
         }}
         isCompact
       >

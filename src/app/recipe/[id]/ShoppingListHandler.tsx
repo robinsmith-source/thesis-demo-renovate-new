@@ -1,11 +1,11 @@
 "use client";
 import ShoppingListSelector from "~/app/_components/ShoppingListSelector";
 import IngredientTable from "~/app/recipe/[id]/IngredientTable";
-import { RecipeStepIngredient, ShoppingList } from "@prisma/client";
-import { Key, useState } from "react";
+import type { RecipeStepIngredient, ShoppingList } from "@prisma/client";
+import { type Key, useState } from "react";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
-import { Ingredient } from "~/utils/IngredientCalculator";
+import type { Ingredient } from "~/utils/IngredientCalculator";
 import { Button } from "@nextui-org/react";
 
 interface ShoppingListHandlerProps {

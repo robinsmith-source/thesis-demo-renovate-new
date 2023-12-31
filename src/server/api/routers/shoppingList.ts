@@ -6,7 +6,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { equivalentUnits } from "~/utils/IngredientCalculator";
-import { Unit } from "@prisma/client";
+import type { Unit } from "@prisma/client";
 
 export const shoppingListRouter = createTRPCRouter({
   create: protectedProcedure

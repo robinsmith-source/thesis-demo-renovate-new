@@ -2,7 +2,7 @@
 
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import type { ShoppingList } from "@prisma/client";
-import { Key, useState } from "react";
+import { type Key, useState } from "react";
 
 export default function ShoppingListSelector({
   shoppingLists,
