@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { equivalentUnits } from "~/utils/IngredientCalculator";
 import type { Unit } from "@prisma/client";
 
@@ -26,21 +22,26 @@ export const shoppingListRouter = createTRPCRouter({
       });
     }),
 
-  get: publicProcedure
-    .input(z.object({ shoppingListId: z.string().cuid() }))
-    .query(({ input, ctx }) => {
-      return ctx.db.shoppingList.findFirst({
-        where: { id: input.shoppingListId },
-        include: {
-          items: true,
+  getAllTableData: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.shoppingList.findMany({
+      orderBy: { createdAt: "desc" },
+      where: { authorId: ctx.session.user.id },
+      include: {
+        items: {
+          include: { shoppingList: true },
         },
-      });
-    }),
+      },
+    });
+  }),
 
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.db.shoppingList.findMany({
       orderBy: { createdAt: "desc" },
       where: { authorId: ctx.session.user.id },
+      select: {
+        id: true,
+        name: true,
+      },
     });
   }),
 
