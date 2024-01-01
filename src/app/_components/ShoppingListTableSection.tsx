@@ -1,5 +1,5 @@
 import ShoppingListCard, {
-  ShoppingListTableProps,
+  type ShoppingListTableProps,
 } from "~/app/_components/ShoppingListCard";
 
 export default function ShoppingListTableSection({

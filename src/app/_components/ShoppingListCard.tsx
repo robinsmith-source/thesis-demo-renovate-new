@@ -42,7 +42,6 @@ export default function ShoppingListCard({
           className="mt-4"
           ingredients={shoppingList.items}
           isSelectable={true}
-          onSelect={() => {}}
         />
       )}
     </Card>

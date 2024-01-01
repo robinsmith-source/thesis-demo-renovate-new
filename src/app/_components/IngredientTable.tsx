@@ -14,14 +14,14 @@ import {
   calculateIngredients,
   type Ingredient,
 } from "~/utils/IngredientCalculator";
-import { Unit } from "@prisma/client";
+import type { Unit } from "@prisma/client";
 
 export default function IngredientTable({
   className,
   isSelectable = false,
   isPortionable = false,
   ingredients,
-  onSelect = () => {},
+  onSelect,
 }: {
   className?: string;
   isSelectable?: boolean;
@@ -54,7 +54,9 @@ export default function IngredientTable({
         ),
       );
     }
-    onSelect(selectedIngredients);
+    if (onSelect) {
+      onSelect(selectedIngredients);
+    }
   }
 
   return (
