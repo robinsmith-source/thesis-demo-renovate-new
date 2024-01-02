@@ -1,20 +1,19 @@
 "use client";
 
 import type { ShoppingList, ShoppingListItem } from "@prisma/client";
-import ShoppingListHandler, {
-  Modes,
-} from "~/app/_components/ShoppingListFormHandler";
+import ShoppingListHandler from "~/app/_components/ShoppingListFormHandler";
 import IngredientTable from "~/app/_components/IngredientTable";
 import { Card, CardHeader } from "@nextui-org/card";
 import { Button, CardBody, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
-import { Ingredient } from "~/utils/IngredientCalculator";
+import type { Ingredient } from "~/utils/IngredientCalculator";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { motion } from "framer-motion";
 import { FaTrash } from "react-icons/fa6";
 import ConfirmationModal from "~/app/_components/ConfirmationModal";
+import { Modes } from "~/app/lib/shoppingListModes";
 
 export interface ShoppingListTableProps {
   shoppingList: ShoppingList & {

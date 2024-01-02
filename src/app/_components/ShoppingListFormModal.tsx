@@ -21,7 +21,7 @@ interface ShoppingListFormModalProps {
   formValue?: {
     id: string;
     name: string;
-    description?: string;
+    description?: string | null;
   };
   submit: (shoppingListForm: ShoppingListFormType) => void;
 }

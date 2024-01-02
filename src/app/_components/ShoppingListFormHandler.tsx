@@ -6,33 +6,36 @@ import ShoppingListFormModal from "~/app/_components/ShoppingListFormModal";
 import { FaPenToSquare, FaPlus, FaTrash } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import ConfirmationModal from "~/app/_components/ConfirmationModal";
-
-export enum Modes {
-  CREATE,
-  EDIT,
-  DELETE,
-}
+import { Modes } from "~/app/lib/shoppingListModes";
 
 export type ShoppingListFormType = {
   name: string;
   description?: string | null;
 };
 
-interface ShoppingListFormHandlerProps {
-  mode?: Modes;
+type ShoppingListFormHandlerProps = {
   buttonSize?: "sm" | "md" | "lg";
-  shoppingList?: {
-    id: string;
-    name: string;
-    description?: string;
-  };
-}
-
-export default function ShoppingListFormHandler({
-  mode = Modes.CREATE,
-  buttonSize = "md",
-  shoppingList,
-}: ShoppingListFormHandlerProps) {
+} & (
+  | {
+      mode: Modes.CREATE;
+    }
+  | {
+      mode: Modes.EDIT;
+      shoppingList: {
+        id: string;
+      } & ShoppingListFormType;
+    }
+  | {
+      mode: Modes.DELETE;
+      shoppingList: {
+        id: string;
+      };
+    }
+);
+export default function ShoppingListFormHandler(
+  props: ShoppingListFormHandlerProps,
+) {
+  const { mode, buttonSize } = props;
   const { onOpen, isOpen, onOpenChange, onClose } = useDisclosure();
   const router = useRouter();
 
@@ -55,14 +58,13 @@ export default function ShoppingListFormHandler({
   });
 
   const onEdit = (data: ShoppingListFormType) => {
-    if (!shoppingList) {
-      throw new Error("No shopping list provided");
+    if (mode === Modes.EDIT && props.shoppingList.id) {
+      editMutation.mutate({
+        shoppingListId: props.shoppingList.id,
+        name: data.name,
+        description: data.description ?? "",
+      });
     }
-    editMutation.mutate({
-      shoppingListId: shoppingList.id,
-      name: data.name,
-      description: data.description ?? "",
-    });
   };
 
   const editMutation = api.shoppingList.update.useMutation({
@@ -77,9 +79,6 @@ export default function ShoppingListFormHandler({
   });
 
   const onDelete = (shoppingListId: string) => {
-    if (!shoppingList) {
-      throw new Error("No shopping list provided");
-    }
     deleteMutation.mutate({
       shoppingListId,
     });
@@ -96,120 +95,61 @@ export default function ShoppingListFormHandler({
     },
   });
 
-  return (
-    <>
-      <ButtonVariants mode={mode} buttonSize={buttonSize} onOpen={onOpen} />
-      <Modals
-        mode={mode}
-        onOpenChange={onOpenChange}
-        isOpen={isOpen}
-        onCreate={onCreate}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        onClose={onClose}
-        shoppingList={shoppingList}
-      />
-    </>
-  );
-}
-
-function ButtonVariants({
-  onOpen,
-  mode,
-  buttonSize,
-}: {
-  onOpen: () => void;
-  mode: Modes;
-  buttonSize: "sm" | "md" | "lg";
-}) {
   switch (mode) {
     case Modes.CREATE:
       return (
-        <Button isIconOnly color="success" size={buttonSize} onPress={onOpen}>
-          <FaPlus />
-        </Button>
+        <>
+          <Button isIconOnly color="success" size={buttonSize} onPress={onOpen}>
+            <FaPlus />
+          </Button>
+          <ShoppingListFormModal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            title="Create Shopping List"
+            submit={onCreate}
+          />
+        </>
       );
     case Modes.EDIT:
       return (
-        <Button isIconOnly color="secondary" size={buttonSize} onPress={onOpen}>
-          <FaPenToSquare />
-        </Button>
+        <>
+          <Button
+            isIconOnly
+            color="secondary"
+            size={buttonSize}
+            onPress={onOpen}
+          >
+            <FaPenToSquare />
+          </Button>
+          <ShoppingListFormModal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            title="Edit Shopping List"
+            formValue={{
+              ...props.shoppingList,
+            }}
+            submit={onEdit}
+          />
+        </>
       );
     case Modes.DELETE:
       return (
-        <Button isIconOnly color="danger" size={buttonSize} onPress={onOpen}>
-          <FaTrash />
-        </Button>
-      );
-    default:
-      throw new Error("Invalid mode");
-  }
-}
-
-function Modals({
-  onOpenChange,
-  isOpen,
-  onClose,
-  mode,
-  shoppingList,
-  onCreate,
-  onEdit,
-  onDelete,
-}: {
-  onOpenChange: () => void;
-  isOpen: boolean;
-  onClose: () => void;
-  mode: Modes;
-  shoppingList?: {
-    id: string;
-    name: string;
-    description?: string;
-  };
-  onCreate: (data: ShoppingListFormType) => void;
-  onEdit: (data: ShoppingListFormType) => void;
-  onDelete: (shoppingListId: string) => void;
-}) {
-  switch (mode) {
-    case Modes.CREATE:
-      return (
-        <ShoppingListFormModal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          title="Create Shopping List"
-          submit={onCreate}
-        />
-      );
-    case Modes.EDIT:
-      if (!shoppingList) {
-        throw new Error("No shopping list provided");
-      }
-      return (
-        <ShoppingListFormModal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          title="Edit Shopping List"
-          formValue={{
-            ...shoppingList,
-          }}
-          submit={onEdit}
-        />
-      );
-    case Modes.DELETE:
-      if (!shoppingList) {
-        throw new Error("No shopping list provided");
-      }
-      return (
-        <ConfirmationModal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          title="Delete Shopping List"
-          body="Are you sure you want to delete this shopping list? 
+        <>
+          <Button isIconOnly color="danger" size={buttonSize} onPress={onOpen}>
+            <FaTrash />
+          </Button>
+          <ConfirmationModal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            title="Delete Shopping List"
+            body="Are you sure you want to delete this shopping list?
           This action cannot be undone."
-          onConfirm={() => {
-            onDelete(shoppingList.id);
-            onClose();
-          }}
-        />
+            onConfirm={() => {
+              onDelete(props.shoppingList.id);
+              onClose();
+            }}
+          />
+        </>
       );
     default:
       throw new Error("Invalid mode");
