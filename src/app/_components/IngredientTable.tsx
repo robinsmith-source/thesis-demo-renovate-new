@@ -20,12 +20,14 @@ export default function IngredientTable({
   className,
   isSelectable = false,
   isPortionable = false,
+  removeWrapper = false,
   ingredients,
   onSelect,
 }: {
   className?: string;
   isSelectable?: boolean;
   isPortionable?: boolean;
+  removeWrapper?: boolean;
   ingredients: {
     id: string;
     quantity: number;
@@ -65,6 +67,7 @@ export default function IngredientTable({
         aria-label="Ingredient Table"
         className={`max-w-xs ${className}`}
         selectionMode={isSelectable ? "multiple" : "none"}
+        removeWrapper={removeWrapper}
         selectedKeys={selectedKeys}
         onSelectionChange={(keys) => {
           //@ts-expect-error TODO: Fix this

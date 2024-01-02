@@ -162,4 +162,42 @@ export const shoppingListRouter = createTRPCRouter({
         });
       }
     }),
+
+  deleteItems: protectedProcedure
+    .input(
+      z.object({
+        shoppingListId: z.string().cuid(),
+        items: z.array(z.string().cuid()),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const existingList = await ctx.db.shoppingList.findFirst({
+        where: {
+          id: input.shoppingListId,
+          authorId: ctx.session.user.id,
+        },
+      });
+      if (!existingList) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Shopping List not found",
+        });
+      }
+      try {
+        return await ctx.db.shoppingListItem.deleteMany({
+          where: {
+            id: {
+              in: input.items,
+            },
+            shoppingListId: input.shoppingListId,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something went wrong!",
+        });
+      }
+    }),
 });

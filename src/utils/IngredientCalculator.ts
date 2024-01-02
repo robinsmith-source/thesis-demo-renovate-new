@@ -1,6 +1,7 @@
 import type { Unit } from "@prisma/client";
 
 export type Ingredient = {
+  id: string;
   name: string;
   quantity: number;
   unit: Unit;
