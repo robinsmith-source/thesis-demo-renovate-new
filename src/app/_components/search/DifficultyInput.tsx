@@ -3,9 +3,15 @@
 import { useState } from "react";
 import { RiKnifeFill } from "react-icons/ri";
 import { motion } from "framer-motion";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function DifficultyInput() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [hoverValue, setHoverValue] = useState(0);
+  const [clickedValue, setClickedValue] = useState<number | null>(null);
 
   const handleMouseEnter = (index: number) => {
     setHoverValue(index);
@@ -15,25 +21,27 @@ export default function DifficultyInput() {
     setHoverValue(0);
   };
 
-  function handleClick(index: number): void {
-    switch (index) {
-      case 1:
-        // Handle case when index is 1
-        break;
-      case 2:
-        // Handle case when index is 2
-        break;
-      case 3:
-        // Handle case when index is 3
-        break;
-      case 4:
-        // Handle case when index is 4
-        break;
-      default:
-        // Handle other cases
-        break;
+  const updateURLParams = (difficulty: number | null) => {
+    const params = new URLSearchParams(searchParams);
+    if (difficulty !== null) {
+      params.set("difficulty", difficulty.toString());
+    } else {
+      params.delete("difficulty");
     }
-  }
+    void router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleClick = (index: number) => {
+    if (clickedValue === index) {
+      setClickedValue(null);
+      setHoverValue(0);
+      updateURLParams(null);
+    } else {
+      setClickedValue(index);
+      updateURLParams(index);
+    }
+  };
+
   return (
     <>
       <ul className="flex gap-1 p-2" onMouseLeave={handleMouseLeave}>
@@ -51,10 +59,10 @@ export default function DifficultyInput() {
           >
             <RiKnifeFill
               className={
-                index <= hoverValue
-                  ? hoverValue <= 2
+                index <= (clickedValue ?? hoverValue)
+                  ? (clickedValue ?? hoverValue) <= 2
                     ? "text-green-500"
-                    : hoverValue <= 3
+                    : (clickedValue ?? hoverValue) <= 3
                       ? "text-yellow-500"
                       : "text-red-500"
                   : ""

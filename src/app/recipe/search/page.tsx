@@ -1,9 +1,9 @@
 import { api } from "~/trpc/server";
-import RecipeCard from "~/app/_components/RecipeCard";
 
-import { type Recipe, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import AdvancedRecipeSearch from "~/app/_components/search/AdvancedRecipeSearch";
 import FilterAccordion from "~/app/_components/search/FilterAccordion";
+import RecipeCardsSection from "~/app/_components/RecipeCardsSection";
 
 type Label = {
   name: string;
@@ -16,10 +16,10 @@ type LabelCategory = {
   name: string;
 };
 
-
 type urlParams = {
   name?: string;
   labels?: string;
+  difficulty?: number;
 };
 
 type apiParams = {
@@ -36,22 +36,43 @@ type apiParams = {
 
 // translate parameters
 const createQueryParameters = (params: urlParams) => {
-  const { name, labels } = params;
+  const { name, labels, difficulty } = params;
   const queryParameters: apiParams = { take: 20 };
 
   if (name) queryParameters.name = name;
   if (labels) queryParameters.labels = labels.split(",");
+  if (difficulty) {
+    const numericDifficulty = Number(difficulty);
+    switch (numericDifficulty) {
+      case 1:
+        queryParameters.difficulty = "EASY";
+        break;
+      case 2:
+        queryParameters.difficulty = "MEDIUM";
+        break;
+      case 3:
+        queryParameters.difficulty = "HARD";
+        break;
+      case 4:
+        queryParameters.difficulty = "EXPERT";
+        break;
+    }
+  }
 
   return queryParameters;
 };
 
-
-export default async function Page({ searchParams }: { searchParams?: urlParams }) {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: urlParams;
+}) {
   const prisma = new PrismaClient();
   const queryParameters = createQueryParameters(searchParams ?? {});
 
   //adjust api query with filters provided client components
-  const displayedRecipes = await api.recipe.getRecipesAdvanced.query(queryParameters);
+  const displayedRecipes =
+    await api.recipe.getRecipesAdvanced.query(queryParameters);
 
   //get all labels from DB for autocomplete items
   const allLabelNames: Label[] = await prisma.recipeLabel.findMany({
@@ -69,12 +90,10 @@ export default async function Page({ searchParams }: { searchParams?: urlParams 
       <div className="flex w-full flex-row items-center justify-between">
         <AdvancedRecipeSearch />
       </div>
-      <FilterAccordion labels={allLabelNames} categories={allLabelCategories}/>
+      <FilterAccordion labels={allLabelNames} categories={allLabelCategories} />
       {displayedRecipes && displayedRecipes.length > 0 ? (
-        <div className="mt-6 grid h-full w-full grid-cols-1 place-items-center gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {displayedRecipes.map((recipe: Recipe) => (
-            <RecipeCard recipeId={recipe.id} key={recipe.id} />
-          ))}
+        <div>
+          <RecipeCardsSection recipes={displayedRecipes} />
         </div>
       ) : (
         <div className="mt-20 flex items-center justify-center">
