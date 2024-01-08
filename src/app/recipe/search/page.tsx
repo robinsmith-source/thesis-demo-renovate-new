@@ -68,7 +68,7 @@ export default async function Page({
 
   //adjust api query with filters provided client components
   const displayedRecipes =
-    await api.recipe.getRecipesAdvanced.query(queryParameters);
+    await api.recipe.getRecipeCards.query(queryParameters);
 
   // get all labels with their categories from DB for autocomplete items
 const allLabels: Label[] = await prisma.recipeLabel.findMany({
