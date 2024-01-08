@@ -1,3 +1,8 @@
+
+import { api } from "~/trpc/server";
+import React from "react";
+import { Chip, Image, Divider } from "@nextui-org/react";
+import NextImage from "next/image";
 import { Button, Chip, Divider, Link } from "@nextui-org/react";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
@@ -7,13 +12,8 @@ import { auth } from "auth";
 import { api } from "~/trpc/server";
 import ImageCarousel from "./ImageCarousel";
 import IngredientTable from "./IngredientTable";
-import React from "react";
-import { Chip, Image, Divider } from "@nextui-org/react";
-import NextImage from "next/image";
-import { notFound } from "next/navigation";
-import RecipeStep from "./RecipeStep";
-import IngredientTable from "./IngredientTable";
 import RecipeAuthorSection from "./RecipeAuthorSection";
+import RecipeStep from "./RecipeStep";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const recipe = await api.recipe.get.query({ id: params.id });
@@ -82,6 +82,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Divider className="my-4" />
       <RecipeAuthorSection currentRecipeId={params.id} recipeAuthor={recipe.author} />
       <Divider className="my-4" />
+
       <ReviewSection
         recipeId={recipe.id}
         hideReviewForm={
