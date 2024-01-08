@@ -1,6 +1,6 @@
 "use client";
 
-import { FaTag } from "react-icons/fa";
+import { FaTag } from "react-icons/fa6";
 import {
   Autocomplete,
   AutocompleteItem,
