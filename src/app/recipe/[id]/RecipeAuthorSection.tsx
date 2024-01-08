@@ -2,7 +2,7 @@ import { Link, User } from "@nextui-org/react";
 import React from "react";
 import type { User as UserType } from "@prisma/client";
 import { api } from "~/trpc/server";
-import RecipeCard from "~/app/_components/RecipeCard";
+import RecipeCardsSection from "~/app/_components/RecipeCardsSection";
 
 export default async function RecipeAuthorSection({
   currentRecipeId,
@@ -11,11 +11,11 @@ export default async function RecipeAuthorSection({
   currentRecipeId: string;
   recipeAuthor: UserType;
 }) {
-  const authorsRecipe = await api.recipe.getRecipesAdvanced.query({
+  const authorsRecipe = await api.recipe.getRecipeCards.query({
     take: 3,
+    excludeRecipeId: currentRecipeId,
     authorId: recipeAuthor.id,
   });
-  console.log(authorsRecipe);
 
   return (
     <div className="flex flex-col items-center justify-center gap-6">
@@ -41,16 +41,13 @@ export default async function RecipeAuthorSection({
         }}
       />
 
-      {authorsRecipe && (
+      {authorsRecipe.length > 0 && (
         <>
-          <h3 className="text-xl font-medium">
-            Other recipes from {recipeAuthor.name}
+          <h3 className="text-xl">
+            Other recipes from{" "}
+            <span className="font-semibold">{recipeAuthor.name}</span>
           </h3>
-          <div className="flex items-center justify-center gap-4">
-            {authorsRecipe.map((recipe) => (
-              <RecipeCard recipeId={recipe.id} key={recipe.id} />
-            ))}
-          </div>
+          <RecipeCardsSection recipes={authorsRecipe} layout="flex" />
         </>
       )}
     </div>

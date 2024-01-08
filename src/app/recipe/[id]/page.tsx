@@ -1,9 +1,4 @@
-
-import { api } from "~/trpc/server";
-import React from "react";
-import { Chip, Image, Divider } from "@nextui-org/react";
-import NextImage from "next/image";
-import { Button, Chip, Divider, Link } from "@nextui-org/react";
+import { Button, Chip, Divider } from "@nextui-org/react";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { FaPenToSquare } from "react-icons/fa6";
@@ -23,7 +18,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   const session = await auth();
-  console.log(recipe.images);
   return (
     <main>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -84,7 +78,10 @@ export default async function Page({ params }: { params: { id: string } }) {
       </div>
 
       <Divider className="my-4" />
-      <RecipeAuthorSection currentRecipeId={params.id} recipeAuthor={recipe.author} />
+      <RecipeAuthorSection
+        currentRecipeId={params.id}
+        recipeAuthor={recipe.author}
+      />
       <Divider className="my-4" />
 
       <ReviewSection
