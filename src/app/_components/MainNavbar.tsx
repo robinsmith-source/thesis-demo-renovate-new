@@ -78,9 +78,8 @@ export default function MainNavbar() {
 
   // NavbarMenu for small screens
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const smMenuItems = [
+  const navbarLinks = [
     { name: "Home", href: "/" },
-    { name: "Explore", href: "/explore" },
     { name: "Recipes", href: "/recipe/search" },
     { name: "Users", href: "/user/search" },
   ];
@@ -113,34 +112,18 @@ export default function MainNavbar() {
       </NavbarContent>
 
       <NavbarContent justify="center" className="hidden space-x-4 pl-2 sm:flex">
-        <NavbarItem>
-          <Link
-            as={NextLink}
-            className="w-full text-default-600"
-            size="lg"
-            href="/"
-          >
-            Home
-          </Link>
-        </NavbarItem>
-
-        <NavbarItem>
-          <Dropdown>
-            <DropdownTrigger>
-              <Link className="w-full text-default-600" size="lg">
-                Explore
-              </Link>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Static Actions">
-              <DropdownItem key="Recipes" href="/recipe/search" as={NextLink}>
-                Recipes
-              </DropdownItem>
-              <DropdownItem key="Users" href="/users" as={NextLink}>
-                Users
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </NavbarItem>
+        {navbarLinks.map((item, index) => (
+          <NavbarItem key={`${index}`}>
+            <Link
+              as={NextLink}
+              href={item.href}
+              className="w-full text-default-600"
+              size="lg"
+            >
+              {item.name}
+            </Link>
+          </NavbarItem>
+        ))}
       </NavbarContent>
 
       <NavbarContent justify="end">
@@ -164,25 +147,19 @@ export default function MainNavbar() {
       </NavbarContent>
 
       <NavbarMenu>
-        {smMenuItems.map((item, index) =>
-          item.name === "Explore" ? (
-            <NavbarMenuItem className="text-primary-400" key={`${index}`}>
-              <span>{item.name}</span>
-            </NavbarMenuItem>
-          ) : (
-            <NavbarMenuItem key={`${index}`}>
-              <Link
-                as={NextLink}
-                href={item.href}
-                className="w-full text-default-600"
-                size="lg"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            </NavbarMenuItem>
-          ),
-        )}
+        {navbarLinks.map((item, index) => (
+          <NavbarMenuItem key={`${index}`}>
+            <Link
+              as={NextLink}
+              href={item.href}
+              className="w-full text-default-600"
+              size="lg"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item.name}
+            </Link>
+          </NavbarMenuItem>
+        ))}
       </NavbarMenu>
     </Navbar>
   );
