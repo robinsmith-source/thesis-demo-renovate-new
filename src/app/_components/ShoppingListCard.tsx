@@ -11,9 +11,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { motion } from "framer-motion";
-import { FaTrash } from "react-icons/fa6";
-import ConfirmationModal from "~/app/_components/ConfirmationModal";
 import { Modes } from "~/app/lib/shoppingListModes";
+import ShoppingItemFormModal from "~/app/_components/ShoppingItemFormModal";
 
 export interface ShoppingListTableProps {
   shoppingList: ShoppingList & {
@@ -31,7 +30,8 @@ export default function ShoppingListCard({
 
   const router = useRouter();
   console.log(selectedIngredients);
-  function onDeleteItems() {
+
+  function onRemoveItems() {
     deleteMutation.mutate({
       shoppingListId: shoppingList.id,
       items: selectedIngredients.flatMap((ingredient) => ingredient.id),
@@ -71,27 +71,29 @@ export default function ShoppingListCard({
           <p className="text-left text-sm">{shoppingList.description}</p>
         </CardHeader>
 
-        <CardBody>
+        <CardBody className="grid grid-cols-2 gap-4">
+          <Button
+            size="sm"
+            color="success"
+            className={shoppingList.items.length > 0 ? "" : "col-span-2"}
+            onPress={onOpen}
+          >
+            Add Items
+          </Button>
+          <ShoppingItemFormModal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            submit={() => {}}
+            title="Add Items"
+          />
           {shoppingList.items.length > 0 ? (
             <>
-              <div>
-                <Button isIconOnly size="sm" color="danger" onPress={onOpen}>
-                  <FaTrash />
-                </Button>
-                <ConfirmationModal
-                  isOpen={isOpen}
-                  onOpenChange={onOpenChange}
-                  title="Delete shopping list items"
-                  body={`Are you sure you want to delete the selected shopping list items? 
-This action cannot be undone.`}
-                  onConfirm={() => {
-                    onDeleteItems();
-                    onClose();
-                  }}
-                />
-              </div>
+              <Button size="sm" color="danger" onPress={onRemoveItems}>
+                Remove Items
+              </Button>
+
               <IngredientTable
-                className="mt-4"
+                className="col-span-2"
                 removeWrapper
                 ingredients={shoppingList.items}
                 isSelectable={true}
@@ -99,7 +101,7 @@ This action cannot be undone.`}
               />
             </>
           ) : (
-            <p className="text-center text-sm text-foreground-600">
+            <p className="col-span-2 text-center text-sm text-foreground-600">
               No items in this shopping list
             </p>
           )}
