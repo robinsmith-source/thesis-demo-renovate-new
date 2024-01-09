@@ -7,9 +7,9 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-interface ConfirmationModalProps {
+interface UniversalModalProps {
   className?: string;
   isOpen: boolean;
   onOpenChange: () => void;
@@ -38,7 +38,7 @@ export default function UniversalModal({
   submitText = "Submit",
   submitColor = "default",
   cancelText = "Cancel",
-}: ConfirmationModalProps) {
+}: UniversalModalProps) {
   return (
     <>
       <Modal

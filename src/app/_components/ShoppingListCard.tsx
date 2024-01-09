@@ -1,18 +1,28 @@
 "use client";
 
-import type { ShoppingList, ShoppingListItem } from "@prisma/client";
+import type { ShoppingList, ShoppingListItem, Unit } from "@prisma/client";
 import ShoppingListHandler from "~/app/_components/ShoppingListFormHandler";
 import IngredientTable from "~/app/_components/IngredientTable";
 import { Card, CardHeader } from "@nextui-org/card";
-import { Button, CardBody, useDisclosure } from "@nextui-org/react";
-import { useState } from "react";
+import {
+  Button,
+  CardBody,
+  Input,
+  Select,
+  SelectItem,
+  useDisclosure,
+} from "@nextui-org/react";
+import React, { useState } from "react";
 import type { Ingredient } from "~/utils/IngredientCalculator";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import { motion } from "framer-motion";
 import { Modes } from "~/app/lib/shoppingListModes";
-import ShoppingItemFormModal from "~/app/_components/ShoppingItemFormModal";
+import { Controller, useForm } from "react-hook-form";
+import UniversalModal from "~/app/_components/UniversalModal";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export interface ShoppingListTableProps {
   shoppingList: ShoppingList & {
@@ -28,10 +38,69 @@ export default function ShoppingListCard({
   );
   const { onOpen, isOpen, onOpenChange, onClose } = useDisclosure();
 
+  const schema = z.object({
+    name: z.string().min(1),
+    quantity: z.number().min(1),
+    unit: z.enum(
+      [
+        "GRAM",
+        "KILOGRAM",
+        "LITER",
+        "MILLILITER",
+        "TEASPOON",
+        "TABLESPOON",
+        "CUP",
+        "PINCH",
+        "PIECE",
+      ],
+      {
+        required_error: "Unit is required",
+        invalid_type_error: "Invalid unit",
+      },
+    ),
+  });
+
+  const { control, handleSubmit, reset } = useForm({
+    mode: "onTouched",
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: "",
+      quantity: 1,
+      unit: "PIECE" as Unit,
+    },
+  });
+
   const router = useRouter();
   console.log(selectedIngredients);
 
-  function onRemoveItems() {
+  function onAdd(data: { name: string; quantity: number; unit: Unit }) {
+    console.log(typeof data.unit);
+    addMutation.mutate({
+      shoppingListId: shoppingList.id,
+      ingredients: [
+        {
+          name: data.name,
+          quantity: data.quantity,
+          unit: data.unit,
+        },
+      ],
+    });
+  }
+
+  const addMutation = api.shoppingList.addItems.useMutation({
+    onSuccess: () => {
+      toast.success("Shopping list items deleted");
+      router.refresh();
+      onClose();
+      reset();
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Error deleting shopping list items");
+    },
+  });
+
+  function onDelete() {
     deleteMutation.mutate({
       shoppingListId: shoppingList.id,
       items: selectedIngredients.flatMap((ingredient) => ingredient.id),
@@ -80,15 +149,89 @@ export default function ShoppingListCard({
           >
             Add Items
           </Button>
-          <ShoppingItemFormModal
+
+          <UniversalModal
             isOpen={isOpen}
             onOpenChange={onOpenChange}
-            submit={() => {}}
+            onConfirm={handleSubmit(onAdd)}
             title="Add Items"
-          />
+            submitColor="success"
+          >
+            <Controller
+              control={control}
+              name="name"
+              render={({ field, fieldState }) => (
+                <Input
+                  {...field}
+                  label="Name"
+                  variant="bordered"
+                  isRequired
+                  isInvalid={!!fieldState.error}
+                  errorMessage={fieldState.error?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="quantity"
+              render={({ field, fieldState }) => (
+                <Input
+                  {...field}
+                  value={field.value?.toString() ?? ""}
+                  label="Quantity"
+                  variant="bordered"
+                  isRequired
+                  type="number"
+                  onChange={(event) => {
+                    field.onChange(+event.target.value);
+                  }}
+                  isInvalid={!!fieldState.error}
+                  errorMessage={fieldState.error?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="unit"
+              render={({ field, fieldState }) => (
+                <Select
+                  {...field}
+                  label="Unit"
+                  selectedKeys={[field.value]}
+                  isInvalid={!!fieldState.error}
+                  errorMessage={fieldState.error?.message}
+                  isRequired
+                  disallowEmptySelection={true}
+                >
+                  {[
+                    "GRAM",
+                    "KILOGRAM",
+                    "LITER",
+                    "MILLILITER",
+                    "TEASPOON",
+                    "TABLESPOON",
+                    "CUP",
+                    "PINCH",
+                    "PIECE",
+                  ].map((ingredientUnit) => (
+                    <SelectItem
+                      key={ingredientUnit}
+                      value={ingredientUnit as Unit}
+                    >
+                      {ingredientUnit[0] +
+                        ingredientUnit.slice(1).toLowerCase()}
+                    </SelectItem>
+                  ))}
+                </Select>
+              )}
+            />
+          </UniversalModal>
+
           {shoppingList.items.length > 0 ? (
             <>
-              <Button size="sm" color="danger" onPress={onRemoveItems}>
+              <Button size="sm" color="danger" onPress={onDelete}>
                 Remove Items
               </Button>
 
