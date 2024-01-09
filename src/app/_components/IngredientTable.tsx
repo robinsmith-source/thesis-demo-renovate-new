@@ -59,12 +59,14 @@ export default function IngredientTable({
     setShouldEmitSelection(false);
   }, [selectedIngredients, shouldEmitSelection, onSelect]);
 
-  //TODO: fix 2 build warnings with dependency array here
+  const ingredientsIds = summarizedIngredients
+    .map((ingredient) => ingredient.id)
+    .join(",");
   useEffect(() => {
     if (isSelectable) {
       setSelectedKeys(new Set());
     }
-  }, [summarizedIngredients.map((ingredient) => ingredient.id).join(",")]);
+  }, [isSelectable, ingredientsIds]);
 
   function handleSelect(keys: Selection) {
     setSelectedKeys(keys);
