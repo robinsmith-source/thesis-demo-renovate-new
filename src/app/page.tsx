@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import { Image } from "@nextui-org/react";
+import { Divider, Image } from "@nextui-org/react";
 import NextImage from "next/image";
 import RecipeCardsSection from "~/app/_components/RecipeCardsSection";
 
@@ -13,17 +13,30 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col items-center">
-      <div className="mb-4">
-        {/* Goose chef logo */}
-        <Image
-          as={NextImage}
-          width={100}
-          height={100}
-          src="/images/Logo_round_V2.png"
-          alt="Logo"
-          className="mb-2 h-24 w-24 object-contain"
-        />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="ml-5">
+          <h1 className="text-7xl font-bold">Welcome to Goose Chef!</h1>
+          <p className="mt-8 text-4xl font-semibold">
+            The cooking website with your favourite Recipes!
+          </p>
+          <p className="mt-8 text-2xl">
+            Add your own Recipes, share them with Friends and Family. Or explore
+            new Recipes from other Cooking Lovers!
+          </p>
+        </div>
+        <div className="mb-4 flex justify-center">
+          {/* Goose chef logo */}
+          <Image
+            as={NextImage}
+            width={500}
+            height={500}
+            src="/images/goose_chef_paperbag.png"
+            alt="Logo"
+            className="h-120 w-120 mb-2 object-contain"
+          />
+        </div>
       </div>
+      <Divider className="my-4" />
       <RecipeCardsSection recipes={latestRecipes} />
     </main>
   );
