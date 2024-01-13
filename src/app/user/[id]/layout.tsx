@@ -1,6 +1,7 @@
 import { api } from "~/trpc/server";
 import UserCard from "~/app/_components/UserCard";
 import { Divider } from "@nextui-org/react";
+import { notFound } from "next/navigation";
 
 export default async function UserLayout({
   params,
