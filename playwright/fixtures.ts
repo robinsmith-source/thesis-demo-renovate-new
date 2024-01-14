@@ -2,7 +2,6 @@ import { test as baseTest } from "@playwright/test";
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path from "path";
-import { createId } from "@paralleldrive/cuid2";
 import { randomUUID } from "crypto";
 
 const { encode } = await import("@auth/core/jwt");
@@ -31,6 +30,8 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
       // Important: make sure we authenticate in a clean environment by unsetting storage state.
       const page = await browser.newPage({ storageState: undefined });
 
+      // Clear cookies to make sure we don't have any existing sessions.
+      await page.context().clearCookies();
       // Acquire a unique account, for example create a new one.
       // Alternatively, you can have a list of precreated accounts for testing.
       // Make sure that accounts are unique, so that multiple team members
@@ -45,26 +46,17 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
         create: {
           name: `Testing ${id}`,
           email: `testing${id}@example.com`,
-          accounts: {
-            create: {
-              type: "oauth",
-              provider: "discord",
-              providerAccountId: createId(),
-              token_type: "bearer",
-              scope: "email identify",
-            },
-          },
         },
         update: {},
       });
 
-      const token = encode({
+      const token = await encode({
         salt: `test-salt-${id}`,
         secret: process.env.AUTH_SECRET as string,
         maxAge: 1000 * 60 * 60,
         token: {
-          name: `Testing ${id}`,
-          email: `testing${id}@example.com`,
+          name: account.name,
+          email: account.email,
           picture: "https://placekitten.com/400/400",
           sub: account.id,
           jti: randomUUID(),
@@ -75,8 +67,8 @@ export const test = baseTest.extend<{}, { workerStorageState: string }>({
       await page.goto("http://localhost:3000/");
       await page.context().addCookies([
         {
-          name: "authjs.session-token",
-          value: await token,
+          name: "auth.js.session-token",
+          value: token,
           domain: "localhost",
           path: "/",
           httpOnly: true,
