@@ -2,15 +2,15 @@ import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 
 export default function RatingDisplay({
   size = 20,
-  avg,
+  rating,
   total,
 }: {
   size?: number;
-  avg: number;
+  rating: number;
   total?: number;
 }) {
-  const intRating = Math.floor(avg);
-  const fracRating = avg - intRating;
+  const intRating = Math.floor(rating);
+  const fracRating = rating - intRating;
 
   return (
     <ul className="flex gap-1">

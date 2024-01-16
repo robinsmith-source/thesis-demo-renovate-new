@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex flex-col items-start justify-center gap-y-1">
               <h1 className="text-2xl font-bold">{recipe.name}</h1>
 
-              {recipe.reviews && <RatingDisplay avg={averageRating} />}
+              {recipe.reviews && <RatingDisplay rating={averageRating} />}
 
               <span className="capitalize">
                 ({recipe.difficulty.toLowerCase()})
