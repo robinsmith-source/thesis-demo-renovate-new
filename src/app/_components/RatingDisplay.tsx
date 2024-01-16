@@ -32,17 +32,11 @@ export default function RatingDisplay({
             {[1, 2, 3, 4, 5].map((index) => (
               <li key={index}>
                 {index <= intRating ? (
-                  <FaStar
-                    className={rating > 0 ? "fill-orange-400" : "fill-gray-400"}
-                    size={size}
-                  />
+                  <FaStar className="fill-orange-400" size={size} />
                 ) : index - 1 === intRating && fracRating >= 0.5 ? (
-                  <FaStarHalfAlt
-                    className={rating > 0 ? "fill-orange-400" : "text-gray-400"}
-                    size={size}
-                  />
+                  <FaStarHalfAlt className="fill-orange-400" size={size} />
                 ) : (
-                  <FaRegStar size={size} />
+                  <FaRegStar size={size} className="fill-gray-400" />
                 )}
               </li>
             ))}
