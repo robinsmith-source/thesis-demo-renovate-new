@@ -8,6 +8,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 import { utapi } from "~/server/uploadthing";
+import { calculateAverage } from "~/utils/RatingCalculator";
 
 export const recipeRouter = createTRPCRouter({
   get: publicProcedure
@@ -38,7 +39,7 @@ export const recipeRouter = createTRPCRouter({
         take: z.number().min(1).max(50),
         skip: z.number().min(0).optional(),
         excludeRecipeId: z.string().cuid().optional(),
-        orderBy: z.enum(["NEWEST", "OLDEST"]).optional(),
+        orderBy: z.enum(["NEWEST", "OLDEST", "RATING"]).optional(),
         authorId: z.string().cuid().optional(),
         tags: z.array(z.string()).optional(),
         labels: z.array(z.string()).optional(),
@@ -57,7 +58,7 @@ export const recipeRouter = createTRPCRouter({
         };
       }
 
-      return ctx.db.recipe.findMany({
+      const recipes = await ctx.db.recipe.findMany({
         orderBy: (() => {
           switch (input.orderBy) {
             case "NEWEST":
@@ -89,6 +90,16 @@ export const recipeRouter = createTRPCRouter({
           },
         },
       });
+
+      if (input.orderBy === "RATING") {
+        return recipes.sort(
+          (a, b) =>
+            calculateAverage(b.reviews).averageRating -
+            calculateAverage(a.reviews).averageRating,
+        );
+      }
+
+      return recipes;
     }),
 
   getRecipesAdvanced: publicProcedure
