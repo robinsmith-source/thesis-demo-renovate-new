@@ -9,7 +9,8 @@ type urlParams = {
   name?: string;
   labels?: string;
   difficulty?: number;
-  take?: number;
+  order?: "NEWEST" | "OLDEST";
+  pageSize?: number;
   page?: number;
 };
 
@@ -18,13 +19,14 @@ type apiParams = {
   skip?: number;
   name?: string;
   difficulty?: "EASY" | "MEDIUM" | "HARD" | "EXPERT";
+  orderBy?: "NEWEST" | "OLDEST";
   labels?: string[];
 };
 
 // translate parameters
 const createQueryParams = (params: urlParams) => {
-  const { name, labels, difficulty, take, page } = params;
-  const queryParameters: apiParams = { take: take ?? 4 };
+  const { name, labels, difficulty, order, pageSize, page } = params;
+  const queryParameters: apiParams = {take: Number(pageSize) ?? 12};
 
   if (name) queryParameters.name = name;
   if (labels) queryParameters.labels = labels.split(",");
@@ -45,6 +47,7 @@ const createQueryParams = (params: urlParams) => {
         break;
     }
   }
+  if (order) queryParameters.orderBy = order;
   if (page) {
     queryParameters.skip = (page - 1) * (queryParameters.take ?? 0);
   }
@@ -57,9 +60,8 @@ export default async function Page({
 }: {
   searchParams?: urlParams;
 }) {
-  // get all labels and categories from DB for select items and turn them to string arrays
+  // get all categories and their labels from DB
   const categories = await api.recipeLabelCategory.getAll.query();
-
 
   const queryParameters = createQueryParams(searchParams ?? {});
   const displayedRecipeCards =
@@ -73,6 +75,7 @@ export default async function Page({
     <main className="flex flex-col items-center">
       <AdvancedRecipeSearch />
       <FilterAccordion categories={categories} />
+      <QueryPagination pageCount={pageCount} className="my-2"/>
       <RecipeCardsSection recipes={displayedRecipeCards} />
       <QueryPagination pageCount={pageCount} className="mt-2" />
     </main>
