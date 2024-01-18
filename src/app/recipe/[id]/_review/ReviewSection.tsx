@@ -11,7 +11,7 @@ export default async function ReviewSection({
 }) {
   const otherReviews = await api.review.getOthers.query({ recipeId });
 
-  let myReview = hideReviewForm
+  const myReview = hideReviewForm
     ? null
     : await api.review.getMyReview.query({ recipeId });
 
