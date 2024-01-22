@@ -1,12 +1,12 @@
 "use client";
 
-import { Button, Card, Divider, Input } from "@nextui-org/react";
+import { Button, Card, Input } from "@nextui-org/react";
 import { FaFilter, FaMagnifyingGlass } from "react-icons/fa6";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import DifficultyInput from "./DifficultyInput";
 import LabelSelect from "./LabelSelect";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import SearchViewOptions from "./SearchViewOptions";
 
