@@ -59,6 +59,7 @@ export const recipeRouter = createTRPCRouter({
         orderBy: z.enum(["NEWEST", "OLDEST", "RATING"]).optional(),
         excludeRecipeId: z.string().cuid().optional(),
         isFollowingFeed: z.boolean().optional(),
+        savedFeedUserId: z.string().cuid().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -96,6 +97,9 @@ export const recipeRouter = createTRPCRouter({
           ...(input.excludeRecipeId && { id: { not: input.excludeRecipeId } }),
           ...(input.isFollowingFeed && {
             author: { followedBy: { some: { id: ctx?.session?.user?.id } } },
+          }),
+          ...(input.savedFeedUserId && {
+            savedUsers: { some: { id: input.savedFeedUserId } },
           }),
         },
         skip: input.skip ?? 0,
