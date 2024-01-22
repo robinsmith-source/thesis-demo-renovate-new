@@ -54,7 +54,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
             <RatingDisplay rating={averageRating} total={totalReviews} />
           </div>
-          <div className="my-2 flex gap-2">
+          <div className="my-2 flex flex-wrap gap-2">
             {recipe.labels.map((label) => (
               <Chip key={label.id}>{label.name}</Chip>
             ))}
@@ -93,7 +93,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           </table>
         </div>
       </PortionSizeProvider>
-      <div className="mt-4 flex justify-center gap-2">
+      <div className="mt-4 flex flex-wrap justify-center gap-2">
         {recipe.tags.map((tag) => (
           <Chip color="secondary" key={tag} variant="flat">
             #{tag}
