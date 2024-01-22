@@ -23,6 +23,7 @@ export default async function Home() {
           className="mb-2 h-24 w-24 object-contain"
         />
       </div>
+
       <RecipeCardsSection recipes={latestRecipes} />
     </main>
   );
