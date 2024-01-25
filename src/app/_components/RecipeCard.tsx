@@ -1,8 +1,8 @@
 import { Card, CardHeader } from "@nextui-org/card";
 import { CardFooter, Chip, Image } from "@nextui-org/react";
+import { type Prisma } from "@prisma/client";
 import NextImage from "next/image";
 import NextLink from "next/link";
-import { type Prisma } from "@prisma/client";
 import DifficultyChip from "~/app/_components/DifficultyChip";
 import RatingDisplay from "~/app/_components/RatingDisplay";
 import { calculateAverage } from "~/utils/RatingCalculator";
@@ -40,27 +40,23 @@ export default function RecipeCard({
           <DifficultyChip difficulty={recipe.difficulty} />
           <RatingDisplay size={20} rating={averageRating} isMinimalistic />
         </div>
-        <h2
-          className={
-            recipe.images.length === 0
-              ? "text-lg font-semibold text-foreground"
-              : "text-lg font-semibold text-white"
-          }
-        >
-          {recipe.name}
-        </h2>
+        <h2 className="text-lg font-semibold text-white">{recipe.name}</h2>
       </CardHeader>
 
-      <Image
-        removeWrapper
-        as={NextImage}
-        width={300}
-        height={300}
-        src={`https://utfs.io/f/${recipe.images[0]}`}
-        alt=""
-        aria-hidden
-        className="z-0 h-full w-full bg-center object-cover brightness-[.60] transition duration-200 ease-in-out group-hover:scale-110"
-      />
+      {recipe.images.length > 0 ? (
+        <Image
+          removeWrapper
+          as={NextImage}
+          width={300}
+          height={300}
+          src={`https://utfs.io/f/${recipe.images[0]}`}
+          alt=""
+          aria-hidden
+          className="z-0 h-full w-full bg-center object-cover brightness-[.60] transition duration-200 ease-in-out group-hover:scale-110"
+        />
+      ) : (
+        <div className="h-full w-full bg-gradient-to-br from-primary-100 to-primary-500 brightness-[.70] transition duration-200 ease-in-out group-hover:brightness-[.50]"></div>
+      )}
 
       {recipe.labels && (
         <CardFooter className="absolute bottom-1 z-10 flex gap-1">
