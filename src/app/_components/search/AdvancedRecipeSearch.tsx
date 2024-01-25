@@ -37,7 +37,7 @@ export default function AdvancedRecipeSearch({
   }, 333);
 
   return (
-    <div className="mb-3 w-full justify-center">
+    <div className="mb-5 w-full justify-center">
       <Card>
         <div className="m-2 flex flex-row items-center justify-normal space-x-2">
           {/* large screen */}
