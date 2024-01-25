@@ -10,18 +10,22 @@ export default function RecipeSaveButton({
   recipeId,
   userId,
   isSaved,
+  savedCount,
 }: {
   recipeId: string;
   userId: string;
   isSaved: boolean;
+  savedCount: number;
 }) {
   const [savedStatus, setSavedStatus] = useState(isSaved);
   const [isSaving, setIsSaving] = useState(false);
+  const [saveAdjustment, setSaveAdjustment] = useState(0); // [-1, 0, 1]
 
   const saveMutation = api.recipe.save.useMutation({
     onSuccess: () => {
       setSavedStatus(true);
       setIsSaving(false);
+      setSaveAdjustment(saveAdjustment + 1);
       revalidatePath(`/user/${userId}/saved`);
     },
     onError: () => {
@@ -34,6 +38,7 @@ export default function RecipeSaveButton({
     onSuccess: () => {
       setSavedStatus(false);
       setIsSaving(false);
+      setSaveAdjustment(saveAdjustment - 1);
       revalidatePath(`/user/${userId}/saved`);
     },
     onError: () => {
@@ -58,7 +63,7 @@ export default function RecipeSaveButton({
   return (
     <div className="flex justify-center">
       <Button onPress={onPress} isDisabled={isSaving}>
-        {savedStatus ? "Unsave" : "Save"}
+        {savedStatus ? "Unsave" : "Save"} Recipe ({savedCount + saveAdjustment})
       </Button>
     </div>
   );

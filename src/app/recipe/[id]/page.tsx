@@ -93,6 +93,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           recipeId={recipe.id}
           userId={session?.user.id}
           isSaved={recipe.savedUsers.length > 0}
+          savedCount={recipe._count.savedUsers}
         />
       )}
 

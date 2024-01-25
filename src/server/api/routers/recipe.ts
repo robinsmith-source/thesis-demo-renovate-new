@@ -33,6 +33,11 @@ export const recipeRouter = createTRPCRouter({
               id: ctx?.session?.user?.id,
             },
           },
+          _count: {
+            select: {
+              savedUsers: true,
+            },
+          },
         },
       });
 
