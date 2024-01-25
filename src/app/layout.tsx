@@ -1,19 +1,21 @@
 import "~/styles/globals.css";
+import React from "react";
 
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import { auth } from "auth";
-import React from "react";
-import { Toaster } from "react-hot-toast";
-import { extractRouterConfig } from "uploadthing/server";
-import Footer from "~/app/_components/Footer";
 import MainNavbar from "~/app/_components/MainNavbar";
-import SessionProvider from "~/app/_components/SessionProvider";
+import Footer from "~/app/_components/Footer";
+
+import { extractRouterConfig } from "uploadthing/server";
 import { chefFileRouter } from "~/app/api/uploadthing/core";
+
 import { Providers } from "~/app/providers";
 import { TRPCReactProvider } from "~/trpc/react";
+
+import { Toaster } from "react-hot-toast";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { auth } from "../../auth";
 
 const inter = Inter({
   subsets: ["latin"],
