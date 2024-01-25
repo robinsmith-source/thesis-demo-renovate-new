@@ -12,7 +12,7 @@ export default function RecipeCardsSection({
   return (
     <>
       {recipes.length === 0 ? (
-        <section>
+        <section className="flex w-full justify-center items-center">
           <h3 className="text-warning-300">Oh no, you&apos;ll starve!</h3>
         </section>
       ) : (
