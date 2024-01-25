@@ -1,19 +1,21 @@
 import "~/styles/globals.css";
+import React from "react";
 
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import { auth } from "auth";
-import React from "react";
-import { Toaster } from "react-hot-toast";
-import { extractRouterConfig } from "uploadthing/server";
-import Footer from "~/app/_components/Footer";
 import MainNavbar from "~/app/_components/MainNavbar";
-import SessionProvider from "~/app/_components/SessionProvider";
+import Footer from "~/app/_components/Footer";
+
+import { extractRouterConfig } from "uploadthing/server";
 import { chefFileRouter } from "~/app/api/uploadthing/core";
+
 import { Providers } from "~/app/providers";
 import { TRPCReactProvider } from "~/trpc/react";
+
+import { Toaster } from "react-hot-toast";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { auth } from "../../auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,21 +39,25 @@ export default async function RootLayout({
     //Currently there is no better solution than suppressing the error message: https://github.com/pacocoursey/next-themes/issues/169
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`font-sans ${inter.variable} flex min-h-screen flex-col justify-between bg-background text-foreground`}
+        className={`font-sans ${inter.variable} bg-background text-foreground`}
       >
         <NextSSRPlugin routerConfig={extractRouterConfig(chefFileRouter)} />
         <SessionProvider session={session}>
           <Providers>
-            <MainNavbar />
             <TRPCReactProvider headers={headers()}>
-              <div className="mx-auto max-w-screen-xl p-8">
-                <Toaster />
-                {children}
+              <div className="flex min-h-screen flex-col justify-between">
+                <div>
+                  <MainNavbar />
+                  <div className="mx-auto max-w-screen-xl p-8">
+                    <Toaster />
+                    {children}
+                  </div>
+                </div>
+                <Footer />
               </div>
             </TRPCReactProvider>
           </Providers>
         </SessionProvider>
-        <Footer />
       </body>
     </html>
   );

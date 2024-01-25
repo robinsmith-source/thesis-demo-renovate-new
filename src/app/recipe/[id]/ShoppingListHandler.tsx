@@ -1,5 +1,5 @@
 "use client";
-import ShoppingListSelector from "~/app/_components/ShoppingListSelector";
+import ShoppingListSelector from "~/app/shopping-list/ShoppingListSelector";
 import IngredientTable from "~/app/_components/IngredientTable";
 import type { RecipeStepIngredient } from "@prisma/client";
 import { type Key, useCallback, useState } from "react";
@@ -82,12 +82,12 @@ export default function ShoppingListHandler({
               {!selectedIngredients || selectedIngredients.length < 1
                 ? "Select ingredients"
                 : !shoppingListId
-                  ? "Select shopping list"
-                  : `Add ${
-                      selectedIngredients?.length <= 1
-                        ? "Ingredient"
-                        : "Ingredients"
-                    } to shopping list`}
+                ? "Select shopping list"
+                : `Add ${
+                    selectedIngredients?.length <= 1
+                      ? "Ingredient"
+                      : "Ingredients"
+                  } to shopping list`}
             </Button>
           </>
         )}
