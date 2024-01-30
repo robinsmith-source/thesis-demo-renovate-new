@@ -1,7 +1,7 @@
 import { Chip, Input } from "@nextui-org/react";
 import {
-  type KeyboardEvent,
   type ChangeEvent,
+  type KeyboardEvent,
   useEffect,
   useState,
 } from "react";

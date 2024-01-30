@@ -1,9 +1,9 @@
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
+  CardHeader,
   Image,
   Progress,
 } from "@nextui-org/react";

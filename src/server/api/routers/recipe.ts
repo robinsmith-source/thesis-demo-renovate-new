@@ -162,7 +162,9 @@ export const recipeRouter = createTRPCRouter({
 
       return ctx.db.recipe.count({
         where: {
-          ...(input.name && { name: { contains: input.name, mode: "insensitive" } }),
+          ...(input.name && {
+            name: { contains: input.name, mode: "insensitive" },
+          }),
           ...(input.difficulty && { difficulty: input.difficulty }),
           ...(input.excludeRecipeId && { id: { not: input.excludeRecipeId } }),
           ...(input.authorId && { authorId: input.authorId }),
