@@ -82,7 +82,7 @@ test("Should create a shopping list from recipe page and add all ingredients", a
     page.getByRole("heading", { name: "ShoppingList2" }).first().isVisible(),
   );
   await expect(page.locator(".text-left").first()).toContainText("Description");
-  await expect(page.getByLabel("Ingredient Table")).toContainText(
+  await expect(page.getByLabel("Ingredient Table").first()).toContainText(
     "AmountIngredient1 gIngredient1",
   );
 });
