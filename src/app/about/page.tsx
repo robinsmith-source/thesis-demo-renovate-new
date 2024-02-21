@@ -25,7 +25,7 @@ export default function About() {
       <Card className="w-full p-2 sm:max-w-md">
         <CardHeader>
           <div className="text-xl font-bold">
-            That's the team behind GooseChef:
+            That&apos;s the team behind GooseChef:
           </div>
         </CardHeader>
         <CardBody className="space-y-6">
