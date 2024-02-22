@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
           url: new URL(`${user.image}`, import.meta.url),
           width: 600,
           height: 600,
-          alt: `Profile picture of ${user.name || ""}`,
+          alt: `Profile picture of ${user.name}`,
         },
       ],
       type: "profile",

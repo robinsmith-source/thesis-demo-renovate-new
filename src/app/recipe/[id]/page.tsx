@@ -37,10 +37,10 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
           ),
           width: 600,
           height: 600,
-          alt: `Preview image of ${recipe.name || ""}`,
+          alt: `Preview image of ${recipe.name}`,
         },
       ],
-      type: "profile",
+      type: "article",
     },
   };
 }
