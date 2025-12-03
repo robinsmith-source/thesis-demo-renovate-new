@@ -1,16 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", "schedule:daily", "schedule:automergeDaily"],
+  "extends": ["config:base"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
   "dependencyDashboard": true,
+  "schedule": ["* 8-11 * * *"],
+  "automergeSchedule": ["* 8-11 * * *"],
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],
+      "schedule": ["* 8-11 * * *"],
       "groupName": null
     },
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "schedule": ["* 8-11 * * *"],
       "automerge": true
     }
   ]
